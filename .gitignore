@@ -30,3 +30,26 @@
 *.exe
 *.out
 *.app
+
+# Data file
+*dat
+*txt
+!seedsForSim.txt
+*json
+*par
+*tar
+*png
+*old*
+
+# Python
+*pyc
+*pycache*
+*checkpoints*
+
+# Running
+*tmp*
+*log
+*shfp*
+*slurm
+*swp
+

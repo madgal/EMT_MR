@@ -1,0 +1,4 @@
+tar -cvzf down.tar crosstalk_comparison crosstalk_AS crosstalk_AZ crosstalk_Au crosstalk_HS crosstalk_iHu crosstalk_input crosstalk_u3m crosstalk_u3n crosstalk_Au_u3m crosstalk_u3m_HS crosstalk_iHu_u3m crosstalk_iHu_HS crosstalk_AZ_Hu crosstalk_AZ_HS crosstalk_AZ_AS crosstalk_Au_Hu crosstalk_Au_HS crosstalk_AS_u3m crosstalk_AS_Au crosstalk_AS_HS crosstalk_AS_Hu crosstalk_AS_input crosstalk_iHu_input crosstalk_u3m_input crosstalk_u3n_input crosstalk_Au_input crosstalk_HS_input crosstalk_iHu_uH crosstalk_uh_input crosstalk_uh_u3m crosstalk_Au_uh
+
+crosstalk_u3n_u3m
+-rw-r--r--. 1 mlg19 ctbp  76253 Nov 12 17:34 EMT_MR_comp_u3m_0_20_u3n_0_60_1000_ics.txt

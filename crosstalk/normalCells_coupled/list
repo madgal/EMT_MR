@@ -1,0 +1,24 @@
+bothModified/u3m: 
+noPartialEMT/u3m: (7m)
+normal_metabolic/u3m: (14m)
+
+bothModified/comparison: (39m)
+noPartialEMT/comparison: (65m)
+normal_metabolic/comparison: (90m)
+
+bothModified/Hu_input: (167m)
+noPartialEMT/Hu_input: (244m)
+normal_metabolic/Hu_input: (321m)
+
+bothModified/all: (793m)
+
+
+
+
+///below on nots
+noPartialEMT/all: (1265m)
+normal_metabolic/all: (1737m)
+
+bothModified/Hu_input_u3m: (2507m)
+noPartialEMT/Hu_input_u3m: (3277m)
+normal_metabolic/Hu_input_u3m: (4047m)
