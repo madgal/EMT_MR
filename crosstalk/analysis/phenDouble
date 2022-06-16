@@ -1,0 +1,75 @@
+def plotCoupledPhenotypes_doubleLink(fileN,xaxis,yaxis,title,fsave,constants={},xlim=[-1],ylim=[-1],onlyShowHybrid=False,checkRanges=False):
+
+    mpl.rcParams['xtick.labelsize'] = 40
+    mpl.rcParams['ytick.labelsize'] = 30
+    mpl.rcParams.update({'font.size': 30})
+
+    xval,yval,lab=[],[],[]
+    df = pd.read_csv(fileN,header=0)
+    inds =[]
+    if len(constants.keys())>0:
+	for key in constants:
+		inds += list(np.argwhere(df[key.upper()].values==constants[key])[:,0])
+
+    if len(inds)>0:
+	    inds = np.unique(inds)
+	    for i in range(len(df.values[inds])):
+		xval+=[df[xaxis.upper()].values[inds][i]]
+		yval+=[df[yaxis.upper()].values[inds][i]]
+    else:
+        for i in range(len(df.values[:])):
+    		xval+=[df[xaxis.upper()][i]]
+	    	yval+=[df[yaxis.upper()][i]]
+
+    lab=getStateListfromFile(df,onlyShowHybrid) 
+
+    xlabel='$\lambda_{'+xaxis+'}$'
+    ylabel='$\lambda_{'+yaxis+'}$'
+
+    inds = np.argsort(xval)
+    xval = np.array(xval)[inds]
+    yval = np.array(yval)[inds]
+    lab= np.array(lab)[inds]
+
+
+    label=np.array(lab)
+    x1,x2,y1,y2,label=getDataForPlot(xval,yval,label)
+    color,star_colors,colList = getPlotData(label)
+    hatch=getHatchForPlot(star_colors,color)
+
+
+    fig = plt.figure(figsize=(20,14))
+    if checkRanges:
+        for i in range(len(x1)):
+            plt.fill_between([x1[i],x2[i]],y1[i],y2[i],facecolor=color[i])    
+	for i in range(len(xval)):
+            plt.plot(xval[i],yval[i],'o',markersize=20,markeredgecolor='w',markerfacecolor='k',markeredgewidth=4)
+    else:
+        for i in range(len(x1)):
+	    if hatch[i]==0:
+            	plt.fill_between([x1[i],x2[i]],y1[i],y2[i],facecolor=color[i])    
+	    else:
+            	plt.fill_between([x1[i],x2[i]],y1[i],y2[i],facecolor=color[i],hatch="X",linewidth=0.0)
+            
+    legend_elements = getLegend(colList)
+            
+    plt.legend(handles=legend_elements,  bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.title(title)
+    plt.xlabel(xlabel,fontsize=40)
+    plt.ylabel(ylabel,fontsize=40)
+    if len(xlim)>1:
+    	plt.xlim(xlim[0],xlim[1])
+    else:
+    	plt.xlim(np.min(x1),np.max(x2))
+    if len(ylim)>1:
+    	plt.ylim(ylim[0],ylim[1])
+    else:
+    	plt.ylim(np.min(y1),np.max(y2))
+
+    if onlyShowHybrid:
+    	fig.savefig(fsave+"stateProg_grouped.png",bbox_inches='tight')
+    elif checkRanges:
+    	fig.savefig(fsave+"stateProg_ranges.png",bbox_inches='tight')
+    else:
+    	fig.savefig(fsave+"stateProg.png",bbox_inches='tight')
+    #plt.show()

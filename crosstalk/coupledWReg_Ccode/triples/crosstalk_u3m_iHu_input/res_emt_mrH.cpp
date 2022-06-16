@@ -413,54 +413,60 @@ int  main(void){
 	// lamda3m = 0.1,0.244,0.3,0.397,0.4
 	lamda3m=1;
 
-        for (int i=10; i<11;i++){
-	    int jmax=1;
-	    //if(i==7 || i==8){
-	    //	jmax=10;}
-	    //else{
-            //	jmax=1;}
+        for (int i=0; i<10;i++){
+	    int jmax;
+	    if(i==7 || i==8){
+		jmax=10;}
+	    else{
+		jmax=1;}
 	    for (int j=0; j<jmax;j++){
-	        for (int k=10; k<11;k++){
-	    	    int lmax=1.;
-	    	    //if (k==2 || k==3){
-	    	    //	lmax = 10;}
-	    	    //else{
-	    	    //	lmax = 1;}
+	        for (int k=0; k<10;k++){
+	    	    int lmax;
+	    	    if (k==2 || k==3){
+	    		lmax = 10;}
+	    	    else{
+	    		lmax = 1;}
 	            for (int l=0; l<lmax;l++){
-	    	     	    int l2max=1.;
-	    	    	    //if (l==9 && k==3){
-	    	    	    //	l2max = 10;}
-	    	    	    //else{
-	    	            //	l2max = 1;}
+	    	    	    int l2max;
+	    	    	    if (l==9 && k==3){
+	    	    		l2max = 10;}
+	    	    	    else{
+	    	    		l2max = 1;}
 	            for (int l2=0; l2<l2max;l2++){
-	            for (int a=0; a<2;a++){
-			int iv=a;
-			//switch(a){
-			//	case 0:
-			//		iv=2;
-			//		break;
-			//	case 1:
-			//		iv=0;
-			//		break;
-			//	case 2:
-			//		iv=6;
-			//		break;
-			//	case 3:
-			//		iv=10;
-			//		break;
-			//}
+	            for (int a=0; a<4;a++){
+			int iv;
+			switch(a){
+				case 0:
+					iv=0;
+					break;
+				case 1:
+					iv=5;
+					break;
+				case 2:
+					iv=6;
+					break;
+				case 3:
+					iv=10;
+					break;
+			}
 
-			strcpy(finame,"EMT_MR_comp_Hu_1_0");
-			strcpy(frname,"EMT_MR_comp_Hu_1_0");
+			strcpy(finame,"EMT_MR_comp_Hu_0_");
+			strcpy(frname,"EMT_MR_comp_Hu_0_");
 			std::string s;
 			lamdahu = i*0.1+j*0.01;
+			s = std::to_string(i);
+			strcat(finame,s.c_str());
+			strcat(frname,s.c_str());
 			s = std::to_string(j);
 			strcat(finame,s.c_str());
 			strcat(frname,s.c_str());
-			s = "_u3m_1_0";
+			s = "_u3m_0_";
 			strcat(finame,s.c_str());
 			strcat(frname,s.c_str());
 			lamda3m = k*0.1+l*0.01+l2*0.001;
+			s = std::to_string(k);
+			strcat(finame,s.c_str());
+			strcat(frname,s.c_str());
 			s = std::to_string(l);
 			strcat(finame,s.c_str());
 			strcat(frname,s.c_str());
@@ -477,9 +483,9 @@ int  main(void){
 			strcat(finame,s.c_str());
 			strcat(frname,s.c_str());
 
-			//std::cout<<lamdahu<<","<<lamda3m<<","<<I<<"\n";
-			srand(seeds[my_rank]);
-			runSimulation(finame,frname,1000,my_rank,comm_sz);
+			std::cout<<lamdahu<<","<<lamda3m<<","<<I<<"\n";
+			//srand(seeds[my_rank]);
+			//runSimulation(finame,frname,1000,my_rank,comm_sz);
 		} } } } }} 
 	MPI_Finalize();//clean up mpi
 	return 0;

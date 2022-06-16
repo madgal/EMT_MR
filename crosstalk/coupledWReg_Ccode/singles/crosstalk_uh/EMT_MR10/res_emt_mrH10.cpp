@@ -408,8 +408,8 @@ int  main(void){
 
 	/// u -> H // double check
 	for(int i=3; i<7; i++){
-	    for(int j=3; j<5; j++){
-   	        for(int k=0; k<7; k++){
+	    for(int j=0; j<4; j++){
+   	        for(int k=0; k<5; k++){
 			strcpy(finame,"EMT_MR10_uH_");
 			strcpy(frname,"EMT_MR10_uH_");
 			std::string s;
@@ -465,10 +465,6 @@ int  main(void){
 					ymih[1]=2.;
 					ymih[2]=4.;
 					break;
-				case 4: 
-					ymih[1]=4.;
-					ymih[2]=8.;
-					break;
 			}
 			switch(k){// yu
 				case 0:
@@ -490,14 +486,6 @@ int  main(void){
 				case 4:
 					yuih[1]=0.;
 					yuih[2]=0.;
-					break;
-				case 5:
-					yuih[1]=1.;
-					yuih[2]=2.;
-					break;
-				case 6:
-					yuih[1]=3.;
-					yuih[2]=5.;
 					break;
 			}
 

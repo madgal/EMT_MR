@@ -1,5 +1,5 @@
 #!/bin/bash
 
-sleep 2136m
+sleep 380m
 
 mpirun -n 12 ./res_emtMR & 

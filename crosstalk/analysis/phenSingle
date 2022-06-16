@@ -1,0 +1,89 @@
+def plotCoupledPhenotypes_singleLink(fileN,xaxis,title,fsave,logScale=False,onlyShowHybrid=False,checkRanges=False,compI=False):
+
+    mpl.rcParams['xtick.labelsize'] = 40
+    mpl.rcParams['ytick.labelsize'] = 30
+    mpl.rcParams.update({'font.size': 30})
+
+    xlabel = '$\lambda_{'+xaxis+'}$'
+    xval,yval,label=[],[],[]
+    hybridV = []
+    df = pd.read_csv(fileN,header=0)
+    nics = float(df['nics'][0])
+    for i in range(len(df.values[:])):
+	xval+=[df[xaxis.upper()][i]]
+	yval+=[0]
+	hybridV+=[df['EM/WO'][i]/nics*100.]
+
+    compHybrid=0
+    if 'input'.upper() not in fileN.upper():
+	
+	df_comp =pd.read_csv("../coupledWReg_Ccode/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
+    	tempStates=getStates(df_comp)
+	compHybrid=tempStates['EM/WO']
+    else:
+	df_cmp = pd.read_csv("data/crosstalk_input.txt",header=0)
+	row = np.argwhere(df_cmp['INPUT'].values==compI)[:,0][0]
+	compHybrid = df_cmp['EM/WO'][row]
+ 
+    label=getStateListfromFile(df,onlyShowHybrid) 
+
+    lens = []
+    for i in range(len(label)):
+        lens+=[len(label[i])]
+    if 9 in lens:
+          if 1 not in xval and ('input' not in fileN) and ('input' not in fsave):
+                xval+=[1.]
+                yval+=[0.]
+                ind = np.argwhere(np.array(lens)==9)[:,0][0]
+                label+=[np.array(label)[ind]]
+		hybridV+=[compHybrid]
+    elif 1 not in xval and ('input' not in fileN) and ('input' not in fsave):
+        xval+=[1.]
+        yval+=[0.]
+        label+=[['E/O','E/WO','E/W','M/O','M/WO','M/W','EM/O','EM/WO','EM/W']]
+	hybridV+=[compHybrid]
+
+
+    inds = np.argsort(xval)
+    xval = np.array(xval)[inds]
+    yval = np.array(yval)[inds]
+    label= np.array(label)[inds]
+    hybridV= np.array(hybridV)[inds]
+
+    x1,x2,y1,y2,label,hybridV=getDataForPlot(xval,yval,label,hybridV)
+    color,star_colors,colList = getPlotData(label)
+    regType=getRegOfPlot(color,hybridV,compHybrid,colList)
+    hatch,edgcolors,regType=getHatchForPlot(star_colors,color,regType)
+
+    fig = plt.figure(figsize=(20,14))
+
+    if checkRanges:
+        for i in range(len(x1)):
+            plt.fill_between([x1[i],x2[i]],y1[i],y2[i],facecolor=color[i])    
+	for i in range(len(xval)):
+            plt.plot(xval[i],yval[i],'o',markersize=20,markeredgecolor='w',markerfacecolor='k',markeredgewidth=4)
+    else:
+        for i in range(len(x1)):
+		print edgcolors[i]
+            	plt.fill_between([x1[i],x2[i]],y1[i],y2[i],facecolor=color[i],edgecolor=edgcolors[i],hatch=hatch[i],linewidth=0.0)
+    legend_elements = getLegend(colList,regType)
+
+    plt.legend(handles=legend_elements,  bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.title(title)
+    plt.yticks([])
+    plt.ylim(min(y1),max(y2))
+    plt.xlim(min(x1),max(x2))
+    if logScale:
+        plt.xscale('log')
+	xlab = np.arange(1.,np.max(xval)+1)
+	plt.xticks([1,2,4,7,10],[1,2,4,7,10])
+    	plt.xlabel(xlabel+" (log10)",fontsize=40)
+    else:
+    	plt.xlabel(xlabel,fontsize=40)
+    if onlyShowHybrid:
+    	fig.savefig(fsave+"stateProg_grouped.png",bbox_inches='tight')
+    elif checkRanges:
+    	fig.savefig(fsave+"stateProg_ranges.png",bbox_inches='tight')
+    else:
+    	fig.savefig(fsave+"stateProg.png",bbox_inches='tight')
+    #plt.show()

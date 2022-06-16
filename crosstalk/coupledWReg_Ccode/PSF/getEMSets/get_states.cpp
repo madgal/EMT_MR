@@ -693,7 +693,6 @@ int  main(void){
 	
 	srand(seeds[my_rank]);
 	runSimulation(finame,frname,1000,my_rank,comm_sz);
-	*/
 
         ///////////////
 	strcpy(finame,"state_M");
@@ -722,6 +721,7 @@ int  main(void){
 	strcpy(frname,"state_M");
 	srand(seeds[my_rank]);
 	runSimulation(finame,frname,1000,my_rank,comm_sz);
+	*/
 
         ///////////////
 	strcpy(finame,"state_E");
@@ -729,13 +729,13 @@ int  main(void){
 
 	str_cat= getIParameters(0);
 
-	str_cat=getAuParameters(5,0);
+	str_cat=getAuParameters(3,0);
 	strcat(finame,str_cat.c_str());
 	strcat(frname,str_cat.c_str());
-	str_cat=getASParameters(5);
+	str_cat=getASParameters(8);
 	strcat(finame,str_cat.c_str());
 	strcat(frname,str_cat.c_str());
-	str_cat=getAZParameters(5);
+	str_cat=getAZParameters(8);
 	strcat(finame,str_cat.c_str());
 	strcat(frname,str_cat.c_str());
 	

@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 import math
+import time
 from math import factorial
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
@@ -9,11 +10,20 @@ from matplotlib import cm
 import matplotlib as mpl
 
 __clist=[]
-cmap = cm.get_cmap('viridis')
-for i in range(200):
-	__clist+=[mpl.colors.to_hex(cmap(i))]
+cmap1= cm.get_cmap('tab20b')
+cmap2= cm.get_cmap('tab20c')
 
-__clist=['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+count,base=0,0
+for i in range(20):
+    __clist+=[mpl.colors.to_hex(cmap1(base+count*4))]
+    __clist+=[mpl.colors.to_hex(cmap2(base+count*4))]
+    count+=1
+    if count==5:
+            count=0
+            base+=1
+
+
+##__clist=['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
 
 
 
@@ -44,100 +54,208 @@ def stateThresholds():
 #########################
 #########################
 #########################
-def returnStateLabels(res):
+def returnStateLabels(compI,PSF,noHH=None):
 #['M/W','M/WO','M/O','EM/W','EM/WO','EM/O','E/W','E/WO','E/O']
 
-	final=[]
-	uvals=np.unique(res[:,0])
-	hvals=np.unique(res[:,9])
-	for i in range(len(res)):
-		if res[i][0]==np.min(uvals):
-			tmp='M/'
-		elif res[i][0]==np.max(uvals):
-			tmp='E/'
-		else:
-			tmp='EM/'
-		if res[i][9]==np.min(hvals):
-			tmp+='O'
-		elif res[i][9]==np.max(hvals):
-			tmp+='W'
-		else:
-			tmp+='WO'
+	if (not compI) and (not PSF) and (not noHH):
+	        uncoupled =pd.read_csv("~/Research/EMT_MR/crosstalk/coupledWReg_Ccode/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
+		uncoupled_fp = np.unique(np.round(uncoupled.values,6),axis=0)
+		res = np.unique(np.round(uncoupled.values,6),axis=0)
+		final=[]
+		uvals=np.unique(res[:,0])
+		hvals=np.unique(res[:,9])
+		for i in range(len(res)):
+			if res[i][0]==np.min(uvals):
+				tmp='M/'
+			elif res[i][0]==np.max(uvals):
+				tmp='E/'
+			else:
+				tmp='EM/'
+			if res[i][9]==np.min(hvals):
+				tmp+='O'
+			elif res[i][9]==np.max(hvals):
+				tmp+='W'
+			else:
+				tmp+='WO'
+			
+			final+=[tmp]
+	elif (not PSF) and (not noHH):
+	        uncoupled =pd.read_csv("~/Research/EMT_MR/crosstalk/coupledWReg_Ccode/crosstalk_input/EMT_MR_comp_input_"+str(compI)+"_1000_res.txt").dropna()
+		uncoupled_fp = np.unique(np.round(uncoupled.values,6),axis=0)
+		res = np.unique(np.round(uncoupled.values,6),axis=0)
+		final=[]
+		uvals=np.unique(res[:,0])
+		hvals=np.unique(res[:,9])
+		for i in range(len(res)):
+			if res[i][0]==np.min(uvals):
+				tmp='M/'
+			elif res[i][0]==np.max(uvals):
+				tmp='E/'
+			else:
+				tmp='EM/'
+			if res[i][9]==np.min(hvals):
+				tmp+='O'
+			elif res[i][9]==np.max(hvals):
+				tmp+='W'
+			else:
+				tmp+='WO'
+			
+			final+=[tmp]
+	elif (not PSF):
+		if noHH=='noEM':
+	        	uncoupled =pd.read_csv("~/Research/EMT_MR/crosstalk/normalCells_coupled/noPartialEMT/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
+			uncoupled_fp = np.unique(np.round(uncoupled.values,6),axis=0)
+			res = np.unique(np.round(uncoupled_fp,6),axis=0)
+			tmpAdd=[]
+			for el in res[:,9]:
+				inds = np.argwhere(res[:,9]==el)[:,0]
+				tmp = []
+				for i in range(11):
+					tmp+=[np.median(res[inds,i])]
+				tmpAdd +=[tmp]
+
+			tmpAdd = np.array(tmpAdd)
+			uncoupled_fp = np.concatenate((uncoupled_fp,tmpAdd),axis=0)
+			
+		elif noHH=='noWO':
+	        	uncoupled =pd.read_csv("~/Research/EMT_MR/crosstalk/normalCells_coupled/normal_metabolic/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
+			uncoupled_fp = np.unique(np.round(uncoupled.values,6),axis=0)
+			res = np.unique(np.round(uncoupled_fp,6),axis=0)
+			tmpAdd=[]
+			for el in res[:,0]:
+				inds = np.argwhere(res[:,0]==el)[:,0]
+				tmp = []
+				for i in range(11):
+					tmp+=[np.median(res[inds,i])]
+				tmpAdd +=[tmp]
+
+			tmpAdd = np.array(tmpAdd)
+			uncoupled_fp = np.concatenate((uncoupled_fp,tmpAdd),axis=0)
+			
+		else:## noHH
+	        	uncoupled =pd.read_csv("~/Research/EMT_MR/crosstalk/normalCells_coupled/bothModified/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
+			uncoupled_fp = np.unique(np.round(uncoupled.values,6),axis=0)
+			res = np.unique(np.round(uncoupled_fp,6),axis=0)
 		
-		final+=[tmp]
-	return final
+			tmpAdd=[]
+			for el in res[:,9]:
+				inds = np.argwhere(res[:,9]==el)[:,0]
+				tmp = []
+				for i in range(11):
+					tmp+=[np.median(res[inds,i])]
+				tmpAdd +=[tmp]
 
-def getMSE(df_res,compI=False):
+			tmpAdd = np.array(tmpAdd)
+			uncoupled_fp = np.concatenate((uncoupled_fp,tmpAdd),axis=0)
+	
+			tmpAdd=[]
+			for el in res[:,0]:
+				inds = np.argwhere(res[:,0]==el)[:,0]
+				tmp = []
+				for i in range(11):
+					tmp+=[np.median(res[inds,i])]
+				tmpAdd +=[tmp]
+
+			tmpAdd = np.array(tmpAdd)
+			uncoupled_fp = np.concatenate((uncoupled_fp,tmpAdd),axis=0)
+			
+		final=[]
+		res = uncoupled_fp.copy()
+		uvals=np.unique(res[:,0])
+		hvals=np.unique(res[:,9])
+		for i in range(len(res)):
+			if res[i][0]==np.min(uvals):
+				tmp='M/'
+			elif res[i][0]==np.max(uvals):
+				tmp='E/'
+			else:
+				tmp='EM/'
+			if res[i][9]==np.min(hvals):
+				tmp+='O'
+			elif res[i][9]==np.max(hvals):
+				tmp+='W'
+			else:
+				tmp+='WO'
+			
+			final+=[tmp]
+
+	else:
+		em_values = pd.read_csv("~/Research/EMT_MR/crosstalk/coupledWReg_Ccode/PSF/getEMSets/state_EM_1000_res.txt").dropna()
+		m_values = pd.read_csv("~/Research/EMT_MR/crosstalk/coupledWReg_Ccode/PSF/getEMSets/state_M_1000_res.txt")
+		e_values = pd.read_csv("~/Research/EMT_MR/crosstalk/coupledWReg_Ccode/PSF/getEMSets/state_E_1000_res.txt")
+
+		em_res = np.unique(em_values.values,axis=0)
+		m_res = np.unique(m_values.values,axis=0)
+		e_res = np.unique(e_values.values,axis=0)
+		uncoupled_fp = np.concatenate((e_res,em_res,m_res),axis=0)
+		final=[]
+		hvals=np.unique(e_res[:,9])
+		for i in range(len(e_res)):
+			tmp= 'E/'
+			if e_res[i][9]==np.min(hvals):
+				tmp+='O'
+			elif e_res[i][9]==np.max(hvals):
+				tmp+='W'
+			else:
+				tmp+='WO'
+			final+=[tmp]
+			
+		for i in range(len(em_res)):
+			tmp= 'EM/'
+			if em_res[i][9]==np.min(hvals):
+				tmp+='O'
+			elif em_res[i][9]==np.max(hvals):
+				tmp+='W'
+			else:
+				tmp+='WO'
+			final+=[tmp]
+			
+		for i in range(len(m_res)):
+			tmp= 'M/'
+			if m_res[i][9]==np.min(hvals):
+				tmp+='O'
+			elif m_res[i][9]==np.max(hvals):
+				tmp+='W'
+			else:
+				tmp+='WO'
+			final+=[tmp]
+			
+	return uncoupled_fp,final
+
+def getStates_uh(df_res,compI=None,PSF=None,noHH=None):
+    if compI==None:
+         compI=False
     ##columns = u,mz,Z,ms,u3,S,A,Rmt,Rnox,h,mh
 
-    if not compI:
-	        uncoupled =pd.read_csv("../coupledWReg_Ccode/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
-    else:
-	        uncoupled =pd.read_csv("../coupledWReg_Ccode/crosstalk_input/EMT_MR_comp_input_"+str(compI)+"_1000_res.txt").dropna()
+    results=[]
 
-    full_setp = np.append(uncoupled.values,df_res.values,axis=0)
-    mean_list = np.mean(full_setp,axis=0)
-    std_list = np.std(full_setp,axis=0)
-    uncoupledZ = (uncoupled.values-mean_list)/std_list
-    uncoupled_fp = np.unique(np.round(uncoupledZ,6),axis=0)
-
-    stateLabels = returnStateLabels(uncoupled_fp)
-
-    mse_res={'E/O':0,'E/WO':0,'E/W':0,
-             'M/O':0,'M/WO':0,'M/W':0,
-             'EM/O':0,'EM/WO':0,'EM/W':0}
-
+    uncoupled_fp,stateLabels = returnStateLabels(compI,PSF,noHH)
     for i in range(len(df_res)):
-	resZ = (df_res.values[i]-mean_list)/std_list
-	
-	distances = np.sum((resZ-uncoupled_fp)**2,axis=1)
-        location= np.argwhere(np.min(distances)==distances)[:,0][0]
-	
-	tmp_mse = np.sum((resZ-uncoupled_fp[location])**2,axis=0)
-	mse_res[stateLabels[location]]+=tmp_mse
-
-    for key in mse_res:
-	mse_res[key] = mse_res[key]*1./(len(df_res))
-
-    return mse_res
-
-
-def getMSE2(df_res,compI=False):
-    ##columns = u,mz,Z,ms,u3,S,A,Rmt,Rnox,h,mh
-
-    if not compI:
-	        uncoupled =pd.read_csv("../coupledWReg_Ccode/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
-    else:
-	        uncoupled =pd.read_csv("../coupledWReg_Ccode/crosstalk_input/EMT_MR_comp_input_"+str(compI)+"_1000_res.txt").dropna()
-    full_setp = np.append(uncoupled.values,df_res.values,axis=0)
-    mean_list = np.mean(full_setp,axis=0)
-    std_list = np.std(full_setp,axis=0)
-    uncoupledZ = (uncoupled.values-mean_list)/std_list
-    uncoupled_fp = np.unique(np.round(uncoupledZ,6),axis=0)
-
-    stateLabels = returnStateLabels(uncoupled_fp)
-
-    mse_res={'E/O':0,'E/WO':0,'E/W':0,
+        tmp={'E/O':0,'E/WO':0,'E/W':0,
              'M/O':0,'M/WO':0,'M/W':0,
-             'EM/O':0,'EM/WO':0,'EM/W':0}
+             'EM/O':0,'EM/WO':0,'EM/W':0,
+             'E':0,'EM':0,'M':0,
+             'O':0,'WO':0,'W':0}
+	prob=df_res.values[i]/uncoupled_fp
+	####tmpS=np.abs(np.sum(prob*np.log10(prob),axis=1))
+	tmpS=np.abs(np.sum(np.log10(prob)**2,axis=1))
+	loc=np.argwhere(np.min(tmpS)==tmpS)[:,0][0]
 
-    for i in range(len(df_res)):
-	resZ = (df_res.values[i]-mean_list)/std_list
-	
-	distances = np.sum((resZ-uncoupled_fp)**2,axis=1)
-        location= np.argwhere(np.min(distances)==distances)[:,0][0]
-	
-	tmp_mse = 0.5*np.sum((resZ+uncoupled_fp[location])/uncoupled_fp[location],axis=0)/len(resZ)
-	mse_res[stateLabels[location]]+=tmp_mse
+	st = stateLabels[loc]
+	emt,mr=st.split("/")
 
-    for key in mse_res:
-	mse_res[key] = mse_res[key]*1./(len(df_res))
+	tmp[st]=1
+	tmp[emt]=1
+	tmp[mr]=1
 
-    return mse_res
+	results+=[tmp]
+
+    return results
 
 
-
-def getStates(df_res,compI=False):
+def getStates(df_res,compI=None,PSF=None,noHH=None):
+    if compI==None:
+         compI=False
     ##columns = u,mz,Z,ms,u3,S,A,Rmt,Rnox,h,mh
 
     results={'E/O':0,'E/WO':0,'E/W':0,
@@ -146,30 +264,13 @@ def getStates(df_res,compI=False):
              'E':0,'EM':0,'M':0,
              'O':0,'WO':0,'W':0}
 
-    if not compI:
-	        uncoupled =pd.read_csv("../coupledWReg_Ccode/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
-    else:
-	        uncoupled =pd.read_csv("../coupledWReg_Ccode/crosstalk_input/EMT_MR_comp_input_"+str(compI)+"_1000_res.txt").dropna()
-    full_setp = np.append(uncoupled.values,df_res.values,axis=0)
-    #mean_list = np.mean(uncoupled.values,axis=0)
-    mean_list = np.mean(full_setp,axis=0)
-    std_list = np.std(full_setp,axis=0)
-    uncoupledZ = (uncoupled.values-mean_list)/std_list
-    uncoupled_fp = np.unique(np.round(uncoupledZ,6),axis=0)
-
-    stateLabels = returnStateLabels(uncoupled_fp)
-
+    uncoupled_fp,stateLabels = returnStateLabels(compI,PSF,noHH)
     for i in range(len(df_res)):
-	resZ = (df_res.values[i]-mean_list)/std_list
-	
-	#distances=0
-	#for j in [0,1,2,4,5,6,7,8,9,10]:
-	#	distances+=((resZ[j]-uncoupled_fp[:,j])**2)
-
-	##distances = np.sum((df_res.values[i]-uncoupled_fp)**2,axis=1)
-	distances = np.sum((resZ-uncoupled_fp)**2,axis=1)
-        location= np.argwhere(np.min(distances)==distances)[:,0][0]
-	results[stateLabels[location]]+=1
+	prob=df_res.values[i]/uncoupled_fp
+	####tmpS=np.abs(np.sum(prob*np.log10(prob),axis=1))
+	tmpS=np.abs(np.sum(np.log10(prob)**2,axis=1))
+	loc=np.argwhere(np.min(tmpS)==tmpS)[:,0][0]
+	results[stateLabels[loc]]+=1
 
 
     results['E'] = results['E/W']+ results['E/WO']+ results['E/O']
@@ -180,7 +281,6 @@ def getStates(df_res,compI=False):
     results['O'] = results['E/O']+ results['EM/O']+ results['M/O']
 
     return results
-
 
 ###############3
 ###############3
@@ -244,7 +344,7 @@ def M(i,n,u):
 
 def P(li,ymi,u):
 	## P=1 no silencing, P=0 full silencing
-	km = 0.143 ## for mRNA of Hif-1 as that is the one we are varying
+        km = 0.143 ## for mRNA of Hif-1 as that is the one we are varying
         return (L2(li,u))/(1.+Ym2(ymi,u)/km)
 def Ym2(ymi,u):
         total=0
@@ -276,49 +376,60 @@ def consistent_states(xvalues,yvalues,states):
 
 ###########
 def getColorMatch(colList):
-    color_list=[]
+    color_list={}
     if type(colList[0])==list or type(colList[0])==np.ndarray:
         for i in range(len(colList)):
             if len(colList[i])!=9:
-		if colList[i]==['N/A']:
-			color_list+=[[colList[i],'w']]
-		else:
-                	color_list+=[[colList[i],__clist[i]]]
+                if len(colList[i])==1 and  colList[i]==['N/A']:
+                    color_list['w']=colList[i]
+                else:
+                    color_list[__clist[i]]=colList[i]
             else:
-                color_list+=[[colList[i],'k']]
+                color_list['k']=colList[i]
     else:
         if len(colList)!=9:
-		if colList[0]=='N/A':
-                	color_list+=[[colList[0],'w']]
-		else:
-                	color_list+=[[colList,__clist[0]]]
+                if colList[0]=='N/A':
+                       color_list['w']=colList[0]
+                else:
+                       color_list[__clist[0]]=colList
         else:
-            color_list+=[[colList,'k']]
+            color_list['k']=colList
 
     return color_list
 
-def getLegend(colList):
+def getLegend(regT):
     legend_elements=[]
-    if type(colList[0])==list or type(colList[0])==np.ndarray:
-        for i in range(len(colList)):
-            if len(colList[i])!=9:
-		if colList[i]==['N/A']:
-                	legend_elements += [Patch(facecolor='w', edgecolor='w', label=colList[i])]
-		else:
-                	legend_elements += [Patch(facecolor=__clist[i], edgecolor=__clist[i], label=colList[i])]
+    if type(regT[0][0])==list or type(regT[0][0])==np.ndarray:
+        for i in range(len(regT)):
+            colList=regT[i][0]
+            ecr=regT[i][1]
+            hatchVal=regT[i][2]
+            fcr=regT[i][3]
+            if len(colList)!=9:
+                if len(colList)==1 and  colList==['N/A']:
+                	legend_elements += [Patch(facecolor='w',   edgecolor='w',label=colList,hatch=hatchVal)]
+                else:
+                	legend_elements += [Patch(facecolor=fcr,  edgecolor=ecr, label=colList,hatch=hatchVal)]
             else:
                 legend_elements += [Patch(facecolor='k', edgecolor='k',
-                                         label=colList[i])]
+                                         label=colList,hatch=hatchVal)]
     else:
+        colList=regT[0][0]
+        ecr=regT[0][1]
+        hatchVal=regT[0][2]
+        fcr=regT[i][3]
         if len(colList)!=9:
-		if colList[0]=='N/A':
-                	legend_elements += [Patch(facecolor='w', edgecolor='w', label=colList[0])]
-		else:
-	            	legend_elements += [Patch(facecolor=__clist[0], edgecolor=__clist[0],
-                                     label=colList)]
+                if colList=='N/A':
+                        legend_elements += [Patch(facecolor='w', edgecolor='w',  label=colList,hatch=hatchVal)]
+                else:
+                        legend_elements += [Patch(facecolor=fcr, edgecolor=ecr,
+                                     label=colList,hatch=hatchVal)]
         else:
-            legend_elements += [Patch(facecolor='k', edgecolor='k',
-                                     label=colList)]                
+              legend_elements += [Patch(facecolor='k', edgecolor='k',
+                                     label=colList,hatch=hatchVal)]
+
+    legend_elements += [Patch(facecolor='w',label='Black hatch= No Hybrid/Hybrid',hatch='/|')]
+    legend_elements += [Patch(facecolor='k',edgecolor='w',label='White hatch=Hybrid/Hybrid',hatch='-')]
 
 
     return legend_elements
@@ -330,121 +441,123 @@ def getPlotData(label):
     	colList=np.unique(label)
     color=[]
 
+    if (type(colList[0])==list or type(colList[0])==np.ndarray) and len(colList)==1:
+         colList=colList[0]
     star_colors=[]## colors where EM/WO exists
     for i in range(len(label)):
         if type(colList[0])==list or type(colList[0])==np.ndarray:
             for j in range(len(colList)):
                 if equals(label[i],colList[j]):
                     if len(colList[j])!=9:
-			if colList[j]==['N/A']:
-                        	color+=['w']
-				if 'EM/WO' in label[i]:
-					star_colors+=['w']
-			else:
-                        	color+=[__clist[j]]
-				if 'EM/WO' in label[i]:
-					star_colors+=[__clist[j]]
+                         if len(colList[j])==1 and colList[j]==['N/A']:
+                                color+=['w']
+                                if 'EM/WO' in label[i]:
+                                     star_colors+=['w']
+                         else:
+                                color+=[__clist[j]]
+                                if 'EM/WO' in label[i]:
+                                      star_colors+=[__clist[j]]
                     else:
                         color+=['k']
-			if 'EM/WO' in label[i]:
-				star_colors+=['k']
+                        if 'EM/WO' in label[i]:
+                             star_colors+=['k']
                     break
         else:	
             if equals(label[i],colList):
                 if len(colList)!=9:
-			if colList[j]=='N/A':
-                        	color+=['w']
-		    		if 'EM/WO' in label[i]:
-					star_colors+=['w']
-			else:
-                    		color+=[__clist[0]]
-		    		if 'EM/WO' in label[i]:
-					star_colors+=[__clist[0]]
+                         if colList[0]=='N/A':
+                             color+=['w']
+                             if 'EM/WO' in label[i]:
+                                star_colors+=['w']
+                         else:
+                              color+=[__clist[0]]
+                              if 'EM/WO' in label[i]:
+                                   star_colors+=[__clist[0]]
                 else:
                     color+=['k']
-		    if 'EM/WO' in label[i]:
-			star_colors+=['k']
+                    if 'EM/WO' in label[i]:
+                         star_colors+=['k']
 
     star_colors = list(np.unique(star_colors))
  
     return color,star_colors,colList
 
-def getStateList(res,onlyShowHybrid): 
-	tmp =[]
+def getStateList(res):
+        tmp =[]
         for key in res:
             if "/" in key and res[key]>0:
-    		    tmp+=[key]
+                     tmp+=[key]
         
-    	if onlyShowHybrid:
-    		reduced=[]
-    		for i in range(len(tmp)):
-    			reduced += [tmp[i].split("/")[0],tmp[i].split("/")[1]]
-    		tmp=[]
-        
-    	if onlyShowHybrid=='bothI' and (('EM' in reduced) or ('WO' in reduced)):
-    		if 'EM' in reduced:
-               		tmp=['EM']
-    		if 'WO' in reduced:
-               		tmp+=['WO']
-    	elif onlyShowHybrid=='bothX' and (('EM' in reduced) and ('WO' in reduced)):
-               tmp=['EM/WO']
-    	elif onlyShowHybrid=='EM' and (('EM' in reduced)):
-               tmp=['EM']
-    	elif onlyShowHybrid=='WO' and (('WO' in reduced)):
-               tmp=['WO']
-        
-    	if tmp==[]:
-    		    tmp=['N/A']
+        if tmp==[]:
+                 tmp=['N/A']
 
-	return tmp
+        return tmp
+def getHatchForPlot(star_colors,color,hybridV,compHybrid,colList):
+    matchCols = getColorMatch(colList)## colList[i],plotcol
+    regType=[]
+    for el in np.unique(color):
+       if 'EM/WO' not in matchCols[el]:
+            regType+=[[matchCols[el],'k','/|',el]]
+       else:
+            regType+=[[matchCols[el],'w','-',el]]#el,'',el]]
 
+    hatches=[]
+    ecolors=[]
 
-def getStarsForPlot(x1,x2,y1,y2,star_colors,color):
-
-    xmin=np.ones(len(star_colors))*1000.
-    xmax=np.ones(len(star_colors))*-1.
-    ymin=np.ones(len(star_colors))*1000.
-    ymax=np.ones(len(star_colors))*-1.
     for j in range(len(color)):
         if len(star_colors)>0:
+            added=False
             for k in range(len(star_colors)):
                 if star_colors[k]==color[j]:
-			if xmin[k]>x1[j]:
-				xmin[k]=x1[j]
-			if xmax[k]<x2[j]:
-				xmax[k]=x2[j]
-			if ymin[k]>y1[j]:
-				ymin[k]=y1[j]
-			if ymax[k]<y2[j]:
-				ymax[k]=y2[j]
-                
+                        listV = matchCols[color[j]]
+                        if 'EM/WO' not in listV:
+                                added=True
+                                ecolors+=['k']
+                                hatches+=['/|']
+                        else:
+                             if hybridV[j]<compHybrid:
+                                    ecolors+=['w']
+                                    hatches+=['-']
+                             else:# hybridV[j]>= compHybrid:
+                                   ecolors+=['w']#star_colors[k]]
+                                   hatches+=['-']#'']
+                             added=True
+            if not added:
+                 hatches+=['/|']
+                 ecolors+=['k']
+        else:## no star colors
+                 hatches+=['/|']
+                 ecolors+=['k']
 
-    star_x,star_y=[],[]
-    for i in range(len(xmax)):
-        star_x+=[(xmax[i]-xmin[i])/2.+xmin[i]]
-        star_y+=[(ymax[i]-ymin[i])/2.+ymin[i]]
-    
+    return hatches,ecolors,regType
 
-    return star_x,star_y
+def getDataForPlot(xval,yval,lab,extras=None):
+  
 
-def getDataForPlot(xval,yval,lab):
+    if type(extras)!=list and type(extras)!=np.ndarray and extras==None:
+        extras=[]
 
     x1,x2,y1,y2=[],[],[],[]
     label=[]
+    extraNew=[]
     tmp=np.unique(np.array(xval))
     for i in range(len(tmp)):
         el=tmp[i]
         ind = np.argwhere(el==np.array(xval))[:,0]
         tmpz=np.array(lab)[ind]
+        if len(extras)>0:
+             tmpextras = np.array(extras)[ind]
 
         ind2= np.argsort(np.array(yval)[ind])
         tmpz=tmpz[ind2]
+        if len(extras)>0:
+             tmpextras = tmpextras[ind2]
         tmp2=np.array(yval)[ind][ind2]
         for j in range(len(tmp2)):
                 el2=tmp2[j]
-		if len(tmp)==1:
-		    tmpx1=el-0.5
-		    tmpx2=el+0.5
+                if len(tmp)==1:
+                    tmpx1=el-0.5
+                    tmpx2=el+0.5
                 elif i==0:
                     tmpx1=el
                     tmpx2=(tmp[i+1]-tmp[i])/2.+tmp[i]
@@ -455,8 +568,8 @@ def getDataForPlot(xval,yval,lab):
                     tmpx1=(tmp[i]-tmp[i-1])/2.+tmp[i-1]
                     tmpx2=(tmp[i+1]-tmp[i])/2.+tmp[i]
                 if len(tmp2)==1:
-		    tmpy1=el2-0.5
-		    tmpy2=el2+0.5
+                    tmpy1=el2-0.5
+                    tmpy2=el2+0.5
                 elif j==0:
                     tmpy1=el2
                     tmpy2=(tmp2[j+1]-tmp2[j])/2.+tmp2[j]
@@ -467,103 +580,99 @@ def getDataForPlot(xval,yval,lab):
                     tmpy1=(tmp2[j]-tmp2[j-1])/2.+tmp2[j-1]
                     tmpy2=(tmp2[j+1]-tmp2[j])/2.+tmp2[j]
                 label+=[tmpz[j]]
-	        x1+=[tmpx1]
-	        x2+=[tmpx2]
-	        y1+=[tmpy1]
-	        y2+=[tmpy2]
+                x1+=[tmpx1]
+                x2+=[tmpx2]
+                y1+=[tmpy1]
+                y2+=[tmpy2]
+                if len(extras)>0:
+                    extraNew+=[tmpextras[j]]
 
+    if len(extras)>0:
+    	return x1,x2,y1,y2,label,extraNew
     return x1,x2,y1,y2,label
 
-def getStateListfromFile(df,onlyShowHybrid):
+def getStateListfromFile(df):
+
 	lab=[]
 	for i in range(len(df.values[:])):
-		tmp =[]
-		for key in ['M/W','M/WO','M/O','EM/W','EM/WO','EM/O','E/W','E/WO','E/O']:
+                tmp =[]
+                for key in ['M/W','M/WO','M/O','EM/W','EM/WO','EM/O','E/W','E/WO','E/O']:
                     if df[key][i]>0:
-    	    		    tmp+=[key]
-                
-    	    	if onlyShowHybrid:
-    	    		reduced=[]
-    	    		for i in range(len(tmp)):
-    	    			reduced += [tmp[i].split("/")[0],tmp[i].split("/")[1]]
-    	    		tmp=[]
-                
-    	    	if onlyShowHybrid=='bothI' and (('EM' in reduced) or ('WO' in reduced)):
-    	    		if 'EM' in reduced:
-                       		tmp=['EM']
-    	    		if 'WO' in reduced:
-                       		tmp+=['WO']
-    	    	elif onlyShowHybrid=='bothX' and (('EM' in reduced) and ('WO' in reduced)):
-                       tmp=['EM/WO']
-    	    	elif onlyShowHybrid=='EM' and (('EM' in reduced)):
-                       tmp=['EM']
-    	    	elif onlyShowHybrid=='WO' and (('WO' in reduced)):
-                       tmp=['WO']
-                
-    	    	if tmp==[]:
-    	    		    tmp=['N/A']
+                         tmp+=[key]
+                if tmp==[]:
+                      tmp=['N/A']
 
-		lab+=[tmp]
+                lab+=[tmp]
 	return lab
 
 
-def add_lamdas(cxs,tmp,df):
+def add_lamdas(cxs,tmp,df,skipUH=None):
     lamda_counted=False
     labels=['AS','AZ','AU','HS','HU','INPUT','U3M','U3N','UH','LAMDAUH','LAMBDAUH']
+
+    uhflag=False
     for i in range(len(tmp)):
-	tmp_name = tmp[i].upper()
-	if tmp_name=='INPUT':
-		cxs[tmp_name] = float(tmp[i+1])
-		lamda_counted=True
-	elif 'UH' in tmp_name:
-		## uh use P(li,ymi)
-		if len(tmp[i+1])==4:
-			l1=tmp[i+1][0]
-			l2=tmp[i+1][1]
-			ym1=tmp[i+1][2]
-			ym2=tmp[i+1][3]
-		else:
-			l1=tmp[i+1]
-			l2=tmp[i+2]
-			ym1=tmp[i+3]
-			ym2=tmp[i+4]
-		if ("MR1" in tmp) or ("MR2" in tmp) or ("MR3" in tmp) or ("MR4" in tmp):
-			scaleL = 0.2
-			if float(ym1)<3:
-				scaleym1= 0.001
-				scaleym2= 0.002
-				addym1=0.001
-				addym2=0.001
-			else:
-				scaleym1= 0.003
-				scaleym2= 0.005
-				addym1=0.001
-				addym2=0.005
-		elif ("MR5" in tmp) or ("MR6" in tmp):
-			scaleL = 0.1
-			scaleym1= 0.002
-			scaleym2= 0.004
-			addym1=0.001
-			addym2=0.001
-		elif "MR7" in tmp:
-			scaleL = 0.2
-			scaleym1= 0.01
-			scaleym2= 0.2
-			addym1=0.
-			addym2=0.
+	if ('uh'==tmp[i]) or ("UH"==tmp[i].upper()):
+		uhflag=True
 
-		li=[1.,float(l1)*scaleL,float(l2)*scaleL]
-		ymi=[0.,float(ym1)*scaleym1+addym1,float(ym2)*scaleym2+addym2]
-		uavg = np.mean(df['u'].values)
+    if skipUH:
+	uhflag=False
+    if len(df)>0 and not uhflag:
+        for i in range(len(tmp)):
+                tmp_name = tmp[i].upper()
+                if tmp_name=='INPUT':
+                    if float(tmp[i+1])<100:
+                            cxs[tmp_name] = float(tmp[i+1])*10000.
+                    else:
+                          cxs[tmp_name] = float(tmp[i+1])
+                    lamda_counted=True
+                elif 'UH' in tmp_name:
+                   li,ymi,yui,strLi,strYm,yustr,val=getUHSet(tmp,i)
+                   uavg = np.mean(df['u'].values)
+                   if len(li)>0:
+                      cxs['UH'] =P(li,ymi,uavg)+yui
+                   else:
+                      cxs['UH'] =1
+                   cxs['UHV'] =val
+                   lamda_counted=True
 
-		cxs['UH'] =P(li,ymi,uavg)
-		lamda_counted=True
+                elif tmp_name in labels or tmp_name=='IHU':
+                   if tmp_name=='IHU':
+                        tmp_name='HU'
+                   cxs[tmp_name] = float(tmp[i+1])+float(tmp[i+2])/10.**(len(tmp[i+2]))
+                   lamda_counted=True 
 
-	elif tmp_name in labels or tmp_name=='IHU':
-		if tmp_name=='IHU':
-			tmp_name='HU'
-		cxs[tmp_name] = float(tmp[i+1])+float(tmp[i+2])/10.**(len(tmp[i+2]))
-		lamda_counted=True 
+    elif len(df)>0 and uhflag:
+        tmpVs ={}
+	for el in cxs:
+		tmpVs[el]=cxs[el]
+		cxs[el]=[]
+        for i in range(len(tmp)):
+                tmp_name = tmp[i].upper()
+		for j in range(len(df['u'].values)):
+                     if tmp_name=='INPUT':
+                         if float(tmp[i+1])<100:
+                                 cxs[tmp_name] +=[float(tmp[i+1])*10000.]
+                         else:
+                               cxs[tmp_name] +=[float(tmp[i+1])]
+                         lamda_counted=True
+                     elif 'UH' in tmp_name:
+                        li,ymi,yui,strLi,strYm,yustr,val=getUHSet(tmp,i)
+			if len(li)>0:
+                           cxs['UH'] +=[P(li,ymi,df['u'].values[j])]
+                        else:
+                           cxs['UH'] +=[1]
+                        cxs['UHV'] +=[val]
+                        lamda_counted=True
+
+                     elif tmp_name in labels or tmp_name=='IHU':
+                        if tmp_name=='IHU':
+                             tmp_name='HU'
+                        cxs[tmp_name] +=[float(tmp[i+1])+float(tmp[i+2])/10.**(len(tmp[i+2]))]
+                        lamda_counted=True 
+	for el in cxs:
+		if len(cxs[el])==0:
+			cxs[el]=list(np.ones(len(cxs['UH']))*tmpVs[el])
     return   cxs,lamda_counted
 
 def getPhaseBoundaries(xval,yval,colors):
@@ -577,23 +686,23 @@ def getPhaseBoundaries(xval,yval,colors):
     ymax=np.ones(len(boundList))*-1.
     col_list=[]
     for i in range(len(ymax)):
-	col_list+=['']
+         col_list+=['']
 
     x1,x2,y1,y2=[],[],[],[]
     tmp=np.unique(np.array(xval))
     for i in range(len(tmp)):
         el=tmp[i]
         ind = np.argwhere(el==np.array(xval))[:,0]
- 	tmp_list = np.array(colors)[ind]
+        tmp_list = np.array(colors)[ind]
 
         ind2= np.argsort(np.array(yval)[ind])
- 	tmp_list = tmp_list[ind2]
+        tmp_list = tmp_list[ind2]
         tmp2=np.array(yval)[ind][ind2]
         for j in range(len(tmp2)):
                 el2=tmp2[j]
-		if len(tmp)==1:
-		    tmpx1=el-0.5
-		    tmpx2=el+0.5
+                if len(tmp)==1:
+                    tmpx1=el-0.5
+                    tmpx2=el+0.5
                 elif i==0:
                     tmpx1=el
                     tmpx2=(tmp[i+1]-tmp[i])/2.+tmp[i]
@@ -604,8 +713,8 @@ def getPhaseBoundaries(xval,yval,colors):
                     tmpx1=(tmp[i]-tmp[i-1])/2.+tmp[i-1]
                     tmpx2=(tmp[i+1]-tmp[i])/2.+tmp[i]
                 if len(tmp2)==1:
-		    tmpy1=el2-0.5
-		    tmpy2=el2+0.5
+                       tmpy1=el2-0.5
+                       tmpy2=el2+0.5
                 elif j==0:
                     tmpy1=el2
                     tmpy2=(tmp2[j+1]-tmp2[j])/2.+tmp2[j]
@@ -616,18 +725,18 @@ def getPhaseBoundaries(xval,yval,colors):
                     tmpy1=(tmp2[j]-tmp2[j-1])/2.+tmp2[j-1]
                     tmpy2=(tmp2[j+1]-tmp2[j])/2.+tmp2[j]
 
-	        if len(boundList)>0 and (tmp_list[j] in boundList):
-		    for k in range(len(boundList)):
-			if boundList[k]==tmp_list[j]:
-				if xmin[k]>tmpx1:
-					xmin[k]=tmpx1
-				if xmax[k]<tmpx2:
-					xmax[k]=tmpx2
-				if ymin[k]>tmpy1:
-					ymin[k]=tmpy1
-				if ymax[k]<tmpy2:
-					ymax[k]=tmpy2
-				col_list[k] = tmp_list[j]
+                if len(boundList)>0 and (tmp_list[j] in boundList):
+                   for k in range(len(boundList)):
+                         if boundList[k]==tmp_list[j]:
+                            if xmin[k]>tmpx1:
+                                xmin[k]=tmpx1
+                            if xmax[k]<tmpx2:
+                                xmax[k]=tmpx2
+                            if ymin[k]>tmpy1:
+                                ymin[k]=tmpy1
+                            if ymax[k]<tmpy2:
+                                ymax[k]=tmpy2
+                            col_list[k] = tmp_list[j]
 
     bound_x,bound_y=[],[]
     for i in range(len(xmax)):
@@ -636,3 +745,499 @@ def getPhaseBoundaries(xval,yval,colors):
     
 
     return bound_x,bound_y,col_list
+
+def __makeLamdaString(my_str,val):
+
+    labels={'AS':'AMPK-|Snail','AZ':'AMPK-|Zeb','AU':'AMPK -> \mu_{200}','HS':'Hif1->Snail','HU':'Hif1-|\mu_{200}','INPUT':'Input->Snail','U3M':'\mu_{34}->mtROS','U3N':'\mu_{34}->noxROS','UH':'\mu_{200}->Hif1'}
+    return '$\lambda_{'+str(labels[my_str])+'}$='+str(val)
+
+def getUHSet(tmp,i):
+	if tmp[i+1]=='xxx':
+		return [],[],[],'xxx','xxx','xxx','xxx'
+	elif len(tmp[i+1])==3:
+		l1=tmp[i+1][0]
+		ym1=tmp[i+1][1]
+		yu1=tmp[i+1][2]
+		val=tmp[i+1]
+	elif len(tmp[i+1])==4:
+		l1=tmp[i+1][0]
+		l2=tmp[i+1][1]
+		ym1=tmp[i+1][2]
+		ym2=tmp[i+1][3]
+		val=tmp[i+1]
+	else:
+		l1=tmp[i+1]
+		l2=tmp[i+2]
+		ym1=tmp[i+3]
+		ym2=tmp[i+4]
+		val=tmp[i+1]+tmp[i+2]+tmp[i+3]+tmp[i+4]
+	if ("MR1" in tmp) or ("MR2" in tmp) or ("MR3" in tmp) or ("MR4" in tmp):
+		if "MR1" in tmp:
+			yustr='[0,0,0]'
+		elif "MR2" in tmp:
+			yustr='[0,0.01,0.09]'
+		elif "MR3" in tmp:
+			yustr='[0,0.1,0.2]'
+		else:
+			yustr='[0,0.5,1.]'
+		scaleL = 0.2
+		if float(ym1)<3:
+			scaleym1= 0.001
+			scaleym2= 0.002
+			addym1=0.001
+			addym2=0.001
+		else:
+			scaleym1= 0.003
+			scaleym2= 0.005
+			addym1=0.001
+			addym2=0.005
+	elif ("MR5" in tmp) or ("MR6" in tmp):
+		if "MR5" in tmp:
+			yustr='[0,0.01,0.09]'
+		else:
+			yustr='[0,0.1,0.2]'
+		scaleL = 0.1
+		scaleym1= 0.002
+		scaleym2= 0.004
+		addym1=0.001
+		addym2=0.001
+	elif "MR7" in tmp:
+		yustr='[0,0.005,0.05]'
+		scaleL = 0.2
+		scaleym1= 0.01
+		scaleym2= 0.2
+		addym1=0.
+		addym2=0.
+	elif "MR8" in tmp:
+		yustr='[0,0.005,0.05]'
+		scaleL = 0.2
+		if float(ym1)<3:
+			scaleym1= 0.001
+			scaleym2= 0.002
+			addym1=0.006
+			addym2=0.051
+		else:
+			scaleym1= 0.01
+			scaleym2= 0.1
+			addym1=0.006
+			addym2=0.051
+	elif "MR9" in tmp:
+		yustr='[0,0.001,0.009]'
+		scaleL = 0.2
+		if float(ym1)<3:
+			scaleym1= 0.001
+			scaleym2= 0.002
+			addym1=0.001
+			addym2=0.001
+		if float(ym1)<6:
+			scaleym1= 0.003
+			scaleym2= 0.005
+			addym1=0.001
+			addym2=0.005
+		else:
+			scaleym1= 0.01
+			scaleym2= 0.2
+			addym1=0.
+			addym2=0.
+	elif "MR10" in tmp or "MR"==tmp[1]:### this should* be the one we are using
+		l1 = int(l1)
+		ym1=int(ym1)
+		yu1=int(yu1)
+		list_l=[[1.,0.,0.],[1.,0.2,0.2],[1.,0.5,0.3],[1.,0.9,0.8],[1.,0.9,0.9],[1.,1.,0.9],[1.,1.,1.]]
+		list_ym=[[0.,0.,0.],[0.,0.002,0.01],[0.,0.01,0.5],[0.,2.,4.],[0,4.,8.]]
+		list_yu=[[0.,0.001,0.009],[0.,0.01,0.09],[0.,0.1,0.2],[0.,0.5,1.],[0,0,0],[0,1,2],[0,3,5]]
+		li = list_l[l1]
+		ymi = list_l[ym1]
+		strLi= str(int(l1))
+		strYm=str(int(ym1))
+		yustr=str(yu1)
+		li=list_l[l1]
+		ymi=list_ym[ym1]
+		yui=yu1
+	if "MR10" not in tmp and "MR"!=tmp[1]:
+		li=[1.,float(l1)*scaleL,float(l2)*scaleL]
+		ymi=[0.,float(ym1)*scaleym1+addym1,float(ym2)*scaleym2+addym2]
+		yui=0
+               
+		strLi= str(int(l1))+','+str(int(l2))
+		strYm=str(int(ym1))+','+str(int(ym2))
+		li=[1.,float(l1)*scaleL,float(l2)*scaleL]
+		ymi=[0.,float(ym1)*scaleym1+addym1,float(ym2)*scaleym2+addym2]
+
+	return li,ymi,yui,strLi,strYm,yustr,val
+
+def getTitle(filen,uval):
+
+    title=''
+    labels=['AS','AZ','AU','HS','HU','INPUT','U3M','U3N','UH','LAMDAUH','LAMBDAUH']
+    tmp=filen.split("/")[-1].split("_")
+    for i in range(len(tmp)):
+        tmp_name = tmp[i].upper()
+        if tmp_name=='INPUT':
+           title+=__makeLamdaString('INPUT',float(tmp[i+1]))
+        elif 'UH' in tmp_name:
+           li,ymi,yui,strLi,strYm,yustr,val=getUHSet(tmp,i)
+           mystr='P='+str(P(li,ymi,uval))+'\tli=[1,'+strLi+']\t ymi=[0,'+strYm+']\t yui='+yustr
+           title+=__makeLamdaString('UH',mystr)
+
+        elif tmp_name in labels or tmp_name=='IHU':
+           if tmp_name=='IHU':
+             tmp_name='HU'
+           title+=__makeLamdaString(tmp_name,str(float(tmp[i+1])+float(tmp[i+2])/10.**(len(tmp[i+2]))))
+
+        title+='\t'
+	
+    return title
+
+#########################
+
+def getCompHybridVal(compI=None):
+    if compI==None:
+       compI=False
+
+    if not compI:
+         df_comp =pd.read_csv("~/Research/EMT_MR/crosstalk/coupledWReg_Ccode/crosstalk_comparison/EMT_MR_comp_0_1000_res.txt").dropna()
+         tempStates=getStates(df_comp)
+         compHybrid=tempStates['EM/WO']/10.
+    else:
+      df_cmp = pd.read_csv("data/crosstalk_input.txt",header=0)
+      row = np.argwhere(df_cmp['INPUT'].values==compI)[:,0][0]
+      compHybrid = df_cmp['EM/WO'][row]/10.
+ 
+    return compHybrid
+
+def sortDescending(yticks,labels,regList):
+	count=0
+	len_list=np.zeros(len(yticks.keys()))
+	for i in range(len(len_list)):
+		len_list[i] = len(yticks[i])
+	inds = np.argsort(len_list)[::-1]
+
+	new_ticks={}
+	count=0
+	reg_label={}
+	for i in inds:
+		new_ticks[count]=yticks[i]
+		reg_label[count]=regList[i]
+		count+=1
+
+	new_tickLabels={}
+	for key in new_ticks:
+		for el in new_ticks[key]:
+			new_tickLabels[el]=''
+
+	for key in new_ticks:
+		checkList=[]
+		for el in new_ticks[0]:
+			for i in range(len(labels[el])):
+				if labels[el][i].keys()[0]==reg_label[key]:
+					if labels[el][i].values()[0] not in checkList:
+						##checkList+=[labels[el][i].values()[0]]
+						if new_tickLabels[el]=='':
+							new_tickLabels[el]=str(reg_label[key])+'='+str(labels[el][i].values()[0])
+						else:
+							new_tickLabels[el]+='   '+str(reg_label[key])+'='+str(labels[el][i].values()[0])
+					else:
+						new_tickLabels[el]+=''
+					break
+
+	keylist=np.sort(new_tickLabels.keys())
+	ticklabs=[]
+	for i in keylist:
+		ticklabs+=[new_tickLabels[i]]
+		
+	return new_ticks,ticklabs
+
+
+
+#########################
+#########################
+#########################
+def getFullReg(df,reg_list,label_dir,tickList,opp_label,count=None,i=None,tmp=None,els=None):
+
+    if count==None:
+        count=0
+    if i==None:
+         i=0
+    if tmp==None:
+        tmp={}
+    if els==None:
+        els={}
+    ### reg_list = {'x':['A','B','...],'y':['A2','B2','...]}
+    ### label_dir = {'x':{'A':{f1:[],f2:[]}}}, etc where f1 and f2 are foldchang values
+    
+    if len(label_dir)==1:
+        vals = np.sort(df[reg_list[i].upper()])
+        for el in vals:#
+            tickList[0]+=[count]
+            opp_label[count]=[{reg_list[i]:el}]
+            count+=1
+    elif i==len(label_dir)-1:
+        for el in np.sort(label_dir[i].keys()):
+            inds={}
+            for j in els: 
+                inds[j] = np.argwhere(df[reg_list[j].upper()]==els[j])[:,0]
+                
+            if len(inds.keys())>1:
+                indsf = np.intersect1d(inds[0],inds[1])
+            elif len(inds.keys())==1:
+                indsf = inds[0]
+            else:
+                indsf=[]
+
+            if len(inds.keys())>2:
+                for j in range(2,len(inds.keys())):
+                    indsf = np.intersect1d(indsf,inds[j])
+            
+            if len(inds.keys())>0 and len(indsf)>0:
+                label_dir[i][el]+=[count]
+                if count not in opp_label:
+                    opp_label[count]=[{reg_list[i]:el}]
+                tickList[i]+=[count]
+                
+                is_el = np.argsort(els.values())
+                for j in is_el:#els:
+                    label_dir[j][els[j]]+=[count]
+                    opp_label[count]+=[{reg_list[j]:els[j]}]
+                for j in els:
+                    tmp[j]+=[count]
+                count+=1
+    else:
+        if i==0:
+            els={}
+            tmp={}
+            for j in label_dir:
+                tmp[j]=[]
+        for el in np.sort(label_dir[i].keys()):
+            els[i]=el
+            label_dir,tickList,opp_label,count,tmp=getFullReg(df,reg_list,label_dir,tickList,opp_label,count,i+1,tmp,els)
+            tickList[i]+=[np.max(tmp[i])]
+            
+    return label_dir,tickList,opp_label,count,tmp
+##################3
+#########################
+#########################
+def getLamdaSets(lvx,lvy,xk=None,yk=None,count=0,tmpx=None,tmpy=None,finx=None,finy=None):
+
+    if finx is None:
+       finx=[]
+    if finy is None:
+       finy=[]
+    if tmpx is None:
+        tmpx=[]
+    if tmpy is None:
+       tmpy=[]
+
+    if xk is None and yk is None:
+        xk = lvx.keys()
+        yk = lvy.keys()
+    if count==(len(xk)+len(yk)-1):
+        ntx,nty = [],[]
+        for i in range(len(lvy[yk[-1]])):
+            ty = tmpy+[lvy[yk[-1]][i]]
+            ntx+=[tmpx]
+            nty+=[ty]
+        finx+=ntx
+        finy+=nty
+        return finx,finy
+    else:
+        if count <len(xk):
+            for i in range(len(lvx[xk[count]])):
+                t2 = tmpx+[lvx[xk[count]][i]]
+                finx,finy=getLamdaSets(lvx,lvy,xk,yk,count+1,t2,tmpy,finx,finy)
+        elif count <len(xk)+len(yk):
+            for i in range(len(lvy[yk[count%len(xk)]])):
+                t2 = tmpy+[lvy[yk[count%len(xk)]][i]]
+                finx,finy=getLamdaSets(lvx,lvy,xk,yk,count+1,tmpx,t2,finx,finy)
+        else:
+            return finx,finy
+    return finx,finy
+        
+##
+def getPlotData_regulatory(df,lamdaList,regList):
+    allLabels = getStateListfromFile(df)
+    nics = df['nics'][0]*1.
+
+    xlabels,ylabels= getLamdaSets(lamdaList['x'],lamdaList['y'])
+
+    xvals=np.zeros(len(xlabels))
+    xunique=np.unique(xlabels,axis=0)
+    for i in range(len(xunique)):
+        xvals = xvals+(np.mean(xunique[i]==xlabels,axis=1)==1)*i
+    yvals=np.zeros(len(ylabels))
+    yunique=np.unique(ylabels,axis=0)
+    for i in range(len(yunique)):
+       yvals = yvals+(np.mean(yunique[i]==ylabels,axis=1)==1)*i
+
+    label,hybridV=[],[]
+    for i in range(len(xlabels)):
+	  ##start with the x
+          inds = np.argwhere(xlabels[i][0]==df[regList['x'][0].upper()])[:,0]
+          for j in range(1,len(xlabels[i])):
+             tmp = np.argwhere(xlabels[i][j]==df[regList['x'][j].upper()])[:,0]
+             inds = np.intersect1d(tmp,inds)
+          for k in range(len(ylabels[i])):
+             tmp = np.argwhere(ylabels[i][k]==df[regList['y'][k].upper()])[:,0]
+             inds = np.intersect1d(tmp,inds)
+
+          if len(inds)==1:
+              label+=[allLabels[inds[0]]]
+              hybridV+=[df['EM/WO'].values[inds[0]]/nics*100.]
+          else:
+              label+=[[-1]]
+              hybridV+=[-1]
+              if len(inds)>0:
+                  print("Too many inds" )
+
+    indsF= np.argwhere(np.array(hybridV)!=-1)[:,0]
+    xvalF = xvals[indsF]
+    yvalF = yvals[indsF]
+    labelF = list(np.array(label)[indsF])
+    hybridVF = list(np.array(hybridV)[indsF])
+    xlabelsF = list(np.array(xlabels)[indsF])
+    ylabelsF = list(np.array(ylabels)[indsF])
+
+    return xvalF,yvalF,labelF,hybridVF,xlabelsF,ylabelsF
+
+##################
+def determineRegRange(filen,comp,compI):
+    
+    df =pd.read_csv(filen).dropna()
+    if len(df)>0:
+
+        file0 = open("upreg_files.txt","a")
+        fileF = open("onlyHH_files.txt","a")
+        file1 = open("eq_files.txt","a")
+        file2 = open("downreg_files.txt","a")
+        file3 = open("none_files.txt","a")
+
+        for i in range(len(df)):
+                tmp = int(df['INPUT'].values[i])
+                if tmp!=50000:
+                      if tmp not in compI.keys():
+                              print(tmp," not in input comparison dictionary")
+			
+                      compV = compI[tmp]
+                else:
+                    compV=comp
+
+		if compV<=0:
+			compV=0
+
+                key = 'EM/WO'
+                ## header is AS,AZ,AU,HS,HU,INPUT,U3M,U3N,UH
+                listV = df['EM/WO'].values[i]
+                pdif = np.abs(listV-compV)*1./compV*100.
+                if listV==df['nics'].values[i]:
+                      fileF.write("%s,%s,%s" %(filen,listV/10.,pdif))
+                      for k in ['AS','AZ','AU','HS','HU','INPUT','U3M','U3N','UH','UHV']:
+                          try:
+                                fileF.write(",%s" %df[k].values[i])
+                          except:
+                                fileF.write(",")
+                      fileF.write("\n")
+                elif listV==0:
+                      file3.write("%s,%s,%s" %(filen,listV/10.,pdif))
+                      for k in ['AS','AZ','AU','HS','HU','INPUT','U3M','U3N','UH','UHV']:
+                          try:
+                              file3.write(",%s" %df[k].values[i])
+                          except:
+                                file3.write(",")
+                      file3.write("\n")
+                elif listV>compV:
+                      file0.write("%s,%s,%s" %(filen,listV/10.,pdif))
+                      for k in ['AS','AZ','AU','HS','HU','INPUT','U3M','U3N','UH','UHV']:
+                          try:
+                              file0.write(",%s" %df[k].values[i])
+                          except:
+                                file0.write(",")
+                      file0.write("\n")
+                elif listV==compV:
+                      file1.write("%s,%s,%s" %(filen,listV/10.,pdif))
+                      for k in ['AS','AZ','AU','HS','HU','INPUT','U3M','U3N','UH','UHV']:
+                          try:
+                              file1.write(",%s" %df[k].values[i])
+                          except:
+                                file1.write(",")
+                      file1.write("\n")
+                else:
+                      file2.write("%s,%s,%s" %(filen,listV/10.,pdif))
+                      for k in ['AS','AZ','AU','HS','HU','INPUT','U3M','U3N','UH','UHV']:
+                          try:
+                              file2.write(",%s" %df[k].values[i])
+                          except:
+                                file2.write(",")
+                      file2.write("\n")
+
+        file0.close()
+        file1.close()
+        file2.close()
+        fileF.close()
+        file3.close()
+##################
+def determineGroups(filen):
+    
+    df =pd.read_csv(filen).dropna()
+    if len(df)>0:
+
+	compV={0:['E/O','M/W'],1:['E/W','M/O'],2:['E/O','M/W','EM/WO'],3:['E/W','M/O','EM/WO'],4:['E/WO','M/O','EM/W'],5:['E/WO','M/W','EM/O'],6:['E/O','M/WO','EM/W'],7:['E/W','M/WO','EM/O'],8:['EM/W','E/O'],9:['EM/W','E/WO'],10:['EM/O','E/W'] ,11:['EM/O','E/WO'] ,12:['EM/WO','E/W'] ,13:['EM/WO','E/O'] ,14:['EM/W','M/O'] ,15:['EM/W','M/WO'] ,16:['EM/O','M/W'] ,17:['EM/O','M/WO'] ,18:['EM/WO','M/W'] ,19:['EM/WO','M/O']}
+	comps={0:0,1:0,2:0, 3:0,4:0, 5:0, 6:0, 7:0 ,8:0 ,9:0 ,10:0 ,11:0 ,12:0 ,13:0 ,14:0 ,15:0 ,16:0 ,17:0 ,18:0 ,19:0}
+        file0 = open("groups.txt","a")
+
+        for i in range(len(df)):
+                ## header is AS,AZ,AU,HS,HU,INPUT,U3M,U3N,UH,UHV,E,EM,M,W,WO,O,M/W,M/WO,M/O,EM/W,EM/WO,EM/O,E/W,E/WO,E/O,nics
+
+		tmp=0
+		labels=[]
+		for key in ['M/W','M/WO','M/O','EM/W','EM/WO','EM/O','E/W','E/WO','E/O']:
+			if df[key].values[i]>0:
+				tmp+=1
+				labels+=[key]
+
+
+		if len(labels)<=3:
+			#print labels
+			for el in comps.keys():
+				#print el,compV[el],equals(compV[el],labels)
+				if equals(compV[el],labels): 
+					#print compV[el]
+					comps[el]+=1
+
+
+
+		if tmp<=3:
+			tmpEMT = []
+			tmpMR =[]
+			for i in range(len(labels)):
+				tmp = labels[i].split("/")
+				if tmp[0] not in tmpEMT:
+					tmpEMT+=[tmp[0]]
+				if tmp[1] not in tmpMR:
+					tmpMR+=[tmp[1]]
+			
+			if len(tmpEMT)==len(tmpMR) and len(tmpMR)==len(labels):
+				file0.write("%s" %filen)
+				for i in range(3):
+					if i>=len(labels):
+						file0.write(",")
+					else:
+						file0.write(",%s" %labels[i])
+
+				file0.write("\n")
+
+        file0.close()
+
+
+        file1 = open("groups_list.txt","a")
+	for el in comps:
+				if comps[el]>0:
+					file1.write("%s" %filen)
+					for i in range(3):
+						if i>= len(compV[el]):
+							file1.write(",")
+						else:
+							file1.write(",%s" %compV[el][i])
+					file1.write("\n")
+	file1.close()
+
+

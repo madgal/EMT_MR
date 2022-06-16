@@ -103,6 +103,8 @@ grm =150. # uM/min
 lambdaar = 0.25
 A0aR = 350. #nM
 nar = 2.
+y =3.
+gn = 0.2
 h0hrm = 200. #nM
 nhrm = 2.
 A0rm = 150. #nM
@@ -119,46 +121,18 @@ A0rn = 150. #nM
 g2 =  0.2
 narn = 2.
 krn = 5. #\min
+narn = 2.
 
 ## for H
+gh = 15. #nM/h
 A0ah = 250. #nM
 lambdaah = 0.1
 nah = 1.
+kh = 0.25 #\hour
 R0rh = 300. #uM
 lambdarh = 0.2 ## opposite because acting on degredation
 nrh = 4.
 h0hh = 80. # nM
 lambdahh = 0.1 ## opposite because acting on degredation
 nhh = 4.
-
-####
-gmh=10.
-gh=1.5
-y =8.
-
-kmh=.143
-kh=1.75
-
-h0u = 200.
-A0u=300.
-A0m =300.
-A0ms= 300.
-h0ms = 200.
-nu30rn = 10000.
-nu30rm = 10000.
-
-lamdahu = 1.  
-lamdaAu = 1.
-lamda3n = 1.
-lamda3m= 1.
-lamdaAms = 1.  
-lamdahms = 1. 
-lamdaAm=1.
-
-nuh=2
-nAm=2
-nAms =2
-nhms = 2 
-n3m=3
-n3n=2
 

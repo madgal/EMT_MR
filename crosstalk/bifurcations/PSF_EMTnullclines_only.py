@@ -86,7 +86,7 @@ DSargsF.pars ={'gz':100.,'gu':2100.,'gms':90.,'gu3':1350.,'gs':100.,'gmz':11.,
 		'nou':1,'noz':1,'nomo':2,'nzmo':1,'nzmg':3,'ngmz':1,
 		'lou':0.1,'loz':0.1,'lomo':0.1,'lzmo':0.5,'lzmg':0.5,'lgmz':0.1,
                 'o0u':250000.,'o0z':25000.,'o0mo':25000.,'Z0mo':10000.,'Z0mg':10000.,'g0mz':25000.,
-                'lamdaIm':16.,
+                'lamdaIm':10.,
                 'G0mo':25000., 'nGmo':2, 'lGmo':0.7 } 
 ##############
 ##############
@@ -100,7 +100,7 @@ new_domains = {'u':[0,100000],'mz':[0,2000],'S':[0,600000],'ms':[0,20000],'u3':[
 
 ##### SET 1
 ode = PyDSTool.Generator.Vode_ODEsystem(DSargsF)
-Ffixed_points = pp.find_fixedpoints(ode,n=5,maxsearch=1e+5,eps=1e-5)
+Ffixed_points = pp.find_fixedpoints(ode,n=5,maxsearch=1e+5,eps=1e-1)
 
 tmp_Ffp=[]
 for i in range(len(Ffixed_points)):

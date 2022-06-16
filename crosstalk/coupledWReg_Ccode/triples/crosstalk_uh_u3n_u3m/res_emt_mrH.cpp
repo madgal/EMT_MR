@@ -594,12 +594,12 @@ int  main(void){
 	           for(int f=0;f<1;f++){//u3m set=10 for nothing
 	             for(int g=0;g<11;g++){//u3n set=10 for nothing
 	               for(int h=5;h<6;h++){//input set=5 for nothing
-	                 for(int i=0;i<1;i++){//uh set to 0 for nothing
+	                 for(int i=1;i<2;i++){//uh set to 0 for nothing
 			    if (i==0){
 				        uhFlag=false;
 
-				        strcpy(finame,"EMT_MR10_uh_xxx");
-				        strcpy(frname,"EMT_MR10_uh_xxx");
+				        strcpy(finame,"EMT_MR");
+				        strcpy(frname,"EMT_MR");
 					std::string str_cat=getASParameters(a);
 					strcat(finame,str_cat.c_str());
 					strcat(frname,str_cat.c_str());

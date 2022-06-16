@@ -451,20 +451,75 @@ std::string getUHParameters(int i, int j, int k){
 }
 std::string getASParameters(int i){
 	std::string tmp_return="_AS_0_";
-	lamdaAms=i*0.1;
-	tmp_return+=std::to_string(i);
+        lamdaAms = 0.1*i;
+        tmp_return=tmp_return+std::to_string(i);
+	return tmp_return;
+
+	switch(i){
+		case 0:
+			lamdaAms=1.;
+			tmp_return+="x";
+			break;
+		case 1:
+			lamdaAms=0.0;
+			tmp_return+="0";
+			break;
+		case 2:
+			lamdaAms=0.4;
+			tmp_return+="4";
+			break;
+		case 3:
+			lamdaAms=0.7;
+			tmp_return+="7";
+			break;
+		case 4:
+			lamdaAms=0.9;
+			tmp_return+="9";
+			break;
+	}
 
 	if(lamdaAms==1.)
-		return "_AS_1_0";
+		return "";
 	return tmp_return;
 }
 std::string getAuParameters(int i){
 	std::string tmp_return="_Au_";
 
-	lamdaAu = i*1.;
-	tmp_return+=std::to_string(i);
-	tmp_return+="_0";
+        lamdaAu = 1.*i;
+        tmp_return=tmp_return+std::to_string(i);
+        tmp_return=tmp_return+"_0";
+	return tmp_return;
 
+	switch(i){
+		case 0:
+			lamdaAu=1.;
+			tmp_return+="1_0";
+			break;
+		case 1:
+			lamdaAu=1.1;
+			tmp_return+="1_1";
+			break;
+		case 2:
+			lamdaAu=1.5;
+			tmp_return+="1_5";
+			break;
+		case 3:
+			lamdaAu=1.9;
+			tmp_return+="1_9";
+			break;
+		case 4:
+			lamdaAu=2.;
+			tmp_return+="2_0";
+			break;
+		case 5:
+			lamdaAu=6.;
+			tmp_return+="6_0";
+			break;
+	}
+
+
+	if(lamdaAu==1.)
+		return "";
 	return tmp_return;
 }
 std::string getAZParameters(int i){
@@ -473,6 +528,7 @@ std::string getAZParameters(int i){
 		case 0:
 			lamdaAm=1.;
 			tmp_return+="x";
+			tmp_return="_AZ_1_0";
 			break;
 		case 1:
 			lamdaAm=0.;
@@ -681,8 +737,8 @@ int  main(void){
 
 	//changing are input I, lamda3m,lamda3n,lamdahu, and uh reg
 
-	for(int a=0;a<11;a++){//AS set=0 for nothing
- 	   for(int b=1;b<6;b++){//Au set=0 for nothing
+	for(int a=0;a<10;a++){//AS set=0 for nothing
+ 	   for(int b=1;b<2;b++){//Au set=0 for nothing
 	     for(int c=3;c<4;c++){//AZ set=0 for nothing
 	       for(int d=1;d<2;d++){//HS set=0 for nothing
 	         for(int e=1;e<2;e++){//Hu set=0 for nothing
