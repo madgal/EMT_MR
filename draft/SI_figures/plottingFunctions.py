@@ -74,144 +74,132 @@ def getColor(label):
 
             ['E/O','EM/WO'],
             ['EM/O','EM/WO'],
-            ['EM/O','M/O'],
             ['E/O','E/WO'],
             ['E/O','E/W'],
-            ['M/O','M/W'],
-            ['M/WO','M/W'],
-            ['M/WO','M/O'],
             ['EM/O','M/WO'],
-            ['E/O','EM/O'],
-            ['E/O','M/O'],
-            ['M/O','EM/WO'],
-            ['E/WO','EM/WO'],
-
-            ['E/O','E/W','E/WO'],
-            ['E/O','E/WO','EM/W'],
-            ['E/O','E/WO','EM/WO'],
+	    ['E/WO','EM/WO'],
+           
             ['E/O','E/WO','M/W'],
-            ['E/O','EM/W','EM/WO'],
             ['E/O','M/W','EM/WO'],
             ['E/O','M/W','M/WO'],
-            ['E/O','M/O','M/W'],
-            ['M/W','M/WO','M/O'],
-            ['E/O','EM/O','M/O'],
-            ['EM/O','M/O','M/W'],
-            ['EM/O','EM/W','EM/WO'],
-            ['EM/WO','M/O','M/W'],
-            ['E/WO','M/O','M/W'],
             ['EM/O','M/WO','EM/WO'],
-            ['EM/O','M/O','EM/WO'],
-
-            ['E/O','EM/WO','M/W','M/WO'],
-            ['E/O','EM/WO','M/W','M/O'],
-            ['E/W','EM/WO','M/O','M/WO'],
+           
             ['E/WO','EM/WO','M/O','M/WO'],
-            ['E/WO','EM/WO','M/O','M/W'],
-            ['E/W','EM/W','M/O','M/WO'],
-            ['E/W','E/WO','E/O','M/W'],
-            ['EM/O','M/W','M/WO','M/O'],
-            ['E/O','M/W','M/WO','M/O'],
-            ['E/O','EM/O','M/O','M/W'],
-            ['E/O','E/WO','EM/W','M/W'],
             ['E/O','E/WO','EM/WO','M/W'],
-            ['E/WO','EM/W','M/O','M/WO'],
-            ['E/O','E/W','M/O','M/W'],
-            ['E/O','E/WO','M/O','M/W'],
-            ['E/O','E/WO','M/WO','M/W'],
-            ['E/O','EM/W','M/O','M/W'],
-            ['E/O','E/WO','EM/O','M/O'],
-            ['E/WO','EM/O','EM/WO','M/O'],
-
-            ['E/W','EM/W','M/O','M/W','M/WO'],
-            ['E/WO','EM/O','EM/WO','M/O','M/WO'],
-            ['E/W','EM/WO','M/W','M/O','M/WO'],
-            ['E/WO','EM/WO','M/W','M/O','M/WO'],
-            ['E/O','E/W','E/WO','EM/W','M/W'],
-            ['E/O','E/W','E/WO','M/WO','M/W'],
-            ['E/O','E/W','EM/W','M/O','M/W'],
+           
             ['E/O','EM/O','M/O','M/WO','M/W'],
-            ['EM/WO','EM/O','M/O','M/WO','M/W'],
-            ['E/WO','EM/W','M/O','M/W','M/WO'],
-            ['E/WO','E/O','M/O','M/W','M/WO'],
-            ['EM/WO','E/O','M/O','M/W','M/WO'],
-            ['E/O','E/WO','EM/WO','M/O','M/W'],
-            ['E/O','E/WO','EM/WO','M/WO','M/W'],
-            ['E/O','E/WO','EM/W','M/WO','M/W'],
-
+           
             ['E/O','E/WO','EM/O','EM/WO','M/O','M/WO'],
-            ['E/O','E/W','EM/O','EM/W','M/O','M/W'],
-            ['E/WO','EM/O','EM/WO','M/O','M/W','M/WO'],
-            ['E/O','E/W','E/WO','EM/W','M/WO','M/W'],
-            ['E/O','E/W','E/WO','M/O','M/WO','M/W'],
-            ['E/O','EM/W','E/WO','M/O','M/WO','M/W'],
             ['E/O','EM/O','EM/WO','M/O','M/W','M/WO'],
-            ['E/O','E/WO','EM/WO','M/O','M/W','M/WO'],
-            ['EM/W','EM/O','EM/WO','M/O','M/W','M/WO'],
-            ['E/O','EM/O','EM/W','M/O','M/W','M/WO'],
-
+           
             ['E/O','E/WO','EM/O','EM/WO','M/WO','M/O','M/W'],
-            ['E/O','EM/WO','EM/O','EM/W','M/WO','M/O','M/W'],
-            ['E/O','E/WO','EM/W','EM/WO','M/WO','M/O','M/W'],
-            ['E/O','E/WO','E/W','EM/W','M/WO','M/O','M/W'],
-
-            ['E/O','E/WO','E/W','EM/W','EM/WO','M/W','M/O','M/WO'],
+           
             ['E/O','E/WO','EM/O','EM/W','EM/WO','M/O','M/WO','M/W'],
+
+	    ['E/O','EM/O'],
+	    ['E/O','EM/O','M/O'],
+	    ['EM/O','M/O'],
+	    ['EM/W','M/O'],
+	    ['M/W','M/O'],
+	    ['M/W','M/O','M/WO'],
+
+
+	    ['E/O','E/WO','M/W','M/WO'],
+	    ['E/WO','M/W'],
+	    ['EM/O','EM/W','EM/WO','M/O','M/W','M/WO'],
+	    ['E/O','E/WO','EM/W','M/O','M/W','M/WO'],
+	    ['E/O','E/W','E/WO','EM/W','M/W'],
+	    ['E/O','EM/O','EM/W','EM/WO','M/O','M/W','M/WO'],
+	    ['EM/O','EM/WO','M/O','M/W','M/WO'],
+	    ['E/WO','M/O','M/W','M/WO'],
+	    ['E/O','E/WO','M/O','M/W','M/WO'],
+	    ['E/O','E/WO','EM/W','M/W','M/WO'],
+	    ['E/WO','M/W','M/WO'],
+	    ['E/WO','EM/O','EM/WO','M/W','M/O','M/WO'],
+	    ['E/WO','EM/WO','M/O','M/W','M/WO'],
+	    ['E/O','E/WO','EM/W','M/W'],
+	    ['EM/WO','M/O','M/W','M/WO'],
+
+	    ['EM/WO','M/W'],
+	    ['E/O','EM/WO','M/W','M/WO'],
+	    ['EM/WO','M/W','M/WO'], 
+	    ['M/W','M/WO'], 
+
+	    ['E/O','E/W','E/WO','M/W'],
+	    ['E/WO','EM/WO','M/W'],
+	    ['EM/O','M/O','M/W','M/WO'],
+	
+
+	    ['E/O','E/WO','EM/O'],
+	    ['M/O','M/WO'],
+
+	    ['E/O','EM/O','M/O','M/W'],
+	    ['E/O','E/WO','EM/O','EM/WO','M/O','M/W'],
+	    ['E/WO','EM/WO','M/O'],
+	    ['E/O','E/WO','EM/O','M/O','M/W'],
+	    ['E/WO','EM/WO','M/O','M/W'],
+	    ['E/O','E/W','EM/O','EM/W','M/O','M/W'],
+
+	    ['E/O','E/W','E/WO','M/O','M/W','M/WO'],
+	    ['E/O','E/W','E/WO','EM/W','EM/WO','M/O','M/W','M/WO'],
+	    ['E/O','M/O','M/W','M/WO'],
+	    ['E/O','EM/WO','M/O','M/W','M/WO'],
+	    ['E/O','EM/W','EM/WO','M/O','M/W','M/WO'],
+	    ['E/O','E/W','E/WO','EM/W','M/O','M/W','M/WO'],
+
              ]
     
-    __clist=[]
-    cmap1= cm.get_cmap('tab20b')
-    cmap2= cm.get_cmap('tab20c')
-    count,base=0,0
-    for i in range(20):
-        if matplotlib.colors.to_hex(cmap1(base+count*4))=='yellow':
-            count+=1
-        else:
-            __clist+=[matplotlib.colors.to_hex(cmap1(base+count*4))]
-            __clist+=[matplotlib.colors.to_hex(cmap2(base+count*4))]
-            count+=1
-        if count==5:
-                count=0
-                base+=1
-    __clist+=['darkorange','beige','chartreuse','cyan','lime','magenta','darkviolet',
-              'blue','red','saddlebrown','tomato','pink','salmon',
-              'olive','wheat','mediumslateblue','hotpink',
-              'seagreen','darkkhaki','thistle',
-              'lightgreen','lightsteelblue','pink','mistyrose',
-              'silver','rosybrown','coral','lightyellow','darkseagreen','paleturquoise',
-              'mediumvioletred','darkviolet','crimson','cornflowerblue','dodgerblue','springgreen','lime','pink']
-    for i in range(20):
-        if matplotlib.colors.to_hex(cmap1(base+count*4))=='yellow':
-            count+=1
-        else:
-            __clist+=[matplotlib.colors.to_hex(cmap1(base+count*4))]
-            __clist+=[matplotlib.colors.to_hex(cmap2(base+count*4))]
-            count+=1
-        if count==5:
-                count=0
-                base+=1
-                
-    cmap = matplotlib.cm.get_cmap('hsv')
-    norm = matplotlib.colors.Normalize(vmin=0.0, vmax=len(keys))
+    __clist=['coral','orangered','peru','bisque','darkorange','gold',
+		'olive','chartreuse','lavender','forestgreen','aquamarine','turquoise',
+		'deepskyblue','slategray','royalblue','blue','mediumpurple','mediumorchid',
+		'plum','magenta','deeppink','crimson','pink','silver', 'tan','red',
+		'blueviolet','lightblue','palevioletred','lawngreen','goldenrod','dodgerblue',
+		'rosybrown','firebrick','chocolate','darkkhaki','lightgreen','greenyellow',
+		'darkgreen','lightseagreen','darkcyan','lightskyblue','steelblue','slateblue',
+		'rebeccapurple','darkviolet','thistle',
+		'lightcoral','orange','limegreen','mediumturquoise',
+		'mistyrose','olivedrab','lightsteelblue','burlywood','darkmagenta',
+		'maroon','salmon','sandybrown','yellowgreen','teal','lightpink',
+		'skyblue','palegreen','indigo','hotpink','violet','peachpuff',
+		]
 
-    fileout = open('colorsUsed.txt','a')
+
+    '''
+		black,dimgray,gray,darkgray,lightgray,gainsboro,whitesmoke,white,snow
+		indianred,brown,darkred,
+		tomato,darksalmon,lightsalmon,sienna,seashell,
+		saddlebrown,linenantiquewhite
+		navajowhite,blanchedalmond,papayawhip,moccasin,wheat,oldlace,floralwhite,
+		darkgoldenrod,cornsilk,lemonchiffon,khaki,palegoldenrod,
+		ivory,beige,lightyellow,lightgoldenrodyellow,yellow,
+		darkolivegreen,seagreen
+		green,lime,seagreen,mediumseagreen,springgreen,mintcream,
+		mediumspringgreen,mediumaquamarine,
+		azure,lightcyan,paleturqouise,darkslategray,
+		cadetblue,powderblue
+		aliceblue,lightslategray,cornflowerblue,
+		ghostwhite,midnightblue,navy,darkblue,mediumblue,
+		darkslateblue,mediumslateblue
+		darkorchid,purple,
+		fuchsia,orchid,mediumvioletred,lavenderblush 
+    '''
+
     for i in range(len(keys)):
         if equals(label,keys[i]):
             if i>=len(__clist):
                 print "NEED MORE COLORS",len(keys),len(__clist)
                 
-	    fileout.write("%s\n" %i)
             return __clist[i%len(__clist)]
             #return cmap(norm(i))
 
 
-##############3
-##############3
-##############3
+##############
+##############
+##############
 def colorMap(fileN,reduced=None):
     df = pd.read_csv(fileN)
     lab={}
-    if 'col' in df.columns:#reduced:
+    if reduced:
         keys=['E','EM','M','W','O','WO']
         mainKey='col'
     else:
@@ -239,22 +227,54 @@ def plotPhases(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,l
         xk='Y'
         yk='X'
     df = pd.read_csv(titleStart+".txt")
+    if np.min(df['X1'])<1 and np.max(df['X1'])<2:
+        for i in range(len(df)):
+             df['X1'].values[i] = 1.-df['X1'].values[i]
+             df['X2'].values[i] = 1.-df['X2'].values[i]
+    if np.min(df['Y1'])<1 and np.max(df['Y1'])<2:
+        for i in range(len(df)):
+             df['Y1'].values[i] = 1.-df['Y1'].values[i]
+             df['Y2'].values[i] = 1.-df['Y2'].values[i]
+    
     for i in range(len(df)):
             axa.fill_between([df[xk+'1'].values[i],df[xk+'2'].values[i]],df[yk+'1'].values[i],df[yk+'2'].values[i],facecolor=getColor(labs[df['color'].values[i]]),linewidth=0.0)
 
     try:
         if not noEMWO:
             dfHE = pd.read_csv(titleStart+"_HHexists.txt")
+            if np.min(dfHE['X1'])<1 and np.max(dfHE['X1'])<2:
+                for i in range(len(dfHE)):
+                     dfHE['X1'].values[i] = 1.-dfHE['X1'].values[i]
+                     dfHE['X2'].values[i] = 1.-dfHE['X2'].values[i]
+            if np.min(dfHE['Y1'])<1 and np.max(dfHE['Y1'])<2:
+                for i in range(len(dfHE)):
+                     dfHE['Y1'].values[i] = 1.-dfHE['Y1'].values[i]
+                     dfHE['Y2'].values[i] = 1.-dfHE['Y2'].values[i]
+
             for i in range(len(dfHE)):
                 axa.fill_between([dfHE[xk+'1'].values[i],dfHE[xk+'2'].values[i]],dfHE[yk+'1'].values[i],dfHE[yk+'2'].values[i],facecolor='none',hatch='.',edgecolor='k',linewidth=0.0)
             dfHO = pd.read_csv(titleStart+"_HHOnlhy.txt")
+            if np.min(dfHO['X1'])<1 and np.max(dfHO['X1'])<2:
+                for i in range(len(dfHO)):
+                     dfHO['X1'].values[i] = 1.-dfHO['X1'].values[i]
+                     dfHO['X2'].values[i] = 1.-dfHO['X2'].values[i]
+            if np.min(dfHO['Y1'])<1 and np.max(dfHO['Y1'])<2:
+                for i in range(len(dfHO)):
+                     dfHO['Y1'].values[i] = 1.-dfHO['Y1'].values[i]
+                     dfHO['Y2'].values[i] = 1.-dfHO['Y2'].values[i]
+
             for i in range(len(dfHO)):
                 axa.fill_between([dfHO[xk+'1'].values[i],dfHO[xk+'2'].values[i]],dfHO[yk+'1'].values[i],dfHO[yk+'2'].values[i],facecolor='none',hatch='.',edgecolor='r',linewidth=0.0)
     except:
           print "noEM"
 
+    if ylabel==None and ylim[1]>=100:
+        for i in range(len(df)):
+                axa.fill_between([df[xk+'1'].values[i],df[xk+'2'].values[i]],-1,101,facecolor=getColor(labs[df['color'].values[i]]),linewidth=0.0)
+
+
     if legend:
-	retL,retC=[],[]
+        retL,retC=[],[]
         dfl = pd.read_csv(titleStart+"_legend.txt")
         Lflag=False
         try:
@@ -266,8 +286,8 @@ def plotPhases(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,l
                     if dfl[key].values[i]==1:
                         tmp+=[key]
                 legend_elements+=[ Patch(facecolor=getColor(labs[dfl['t3'].values[i]]),label=tmp)]
-		retL+=[tmp]
-		retC+=[getColor(labs[dfl['t3'].values[i]])]
+                retL+=[tmp]
+                retC+=[getColor(labs[dfl['t3'].values[i]])]
         except:
             Lflag=False
             print "not coupled"
@@ -298,12 +318,92 @@ def plotPhases(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,l
                     legend_elements+=[ Patch(facecolor=getColor(labs[dfl['col'].values[i]]),label=tmp)]
                     retL+=[tmp]
                     retC+=[getColor(labs[dfl['col'].values[i]])]
+
         except:
             print "not coupled"
         if not legendLoc and legend!='return':
-        	axa.legend(handles=legend_elements, bbox_to_anchor=(5.1, 1.))
-	elif legend!='return':
-        	axa.legend(handles=legend_elements, bbox_to_anchor=legendLoc)
+              axa.legend(handles=legend_elements, bbox_to_anchor=(5.1, 1.))
+        elif legend!='return':
+              axa.legend(handles=legend_elements, bbox_to_anchor=legendLoc)
+    if xlabel:
+        if switchX:
+            axa.set_xlabel(ylabel,fontsize=fs+10)
+        else:
+            axa.set_xlabel(xlabel,fontsize=fs+10)
+    if ylabel:
+        if switchX:
+            axa.set_ylabel(xlabel,fontsize=fs+10)
+        else:
+            axa.set_ylabel(ylabel,fontsize=fs+10)
+    if xlim:
+        if switchX:
+            axa.set_xlim(ylim)
+        else:
+            axa.set_xlim(xlim)
+    if ylim:
+        if switchX:
+            axa.set_ylim(xlim)
+        else:
+            axa.set_ylim(ylim)
+
+    if legend=='return':
+         return retC,retL
+
+##############3
+##############3
+def getMesh(x,y,z):
+    
+    xf,yf,zf=[],[],[]
+    xun = np.unique(x)
+    for el in xun:
+        xtmp,ytmp,ztmp=[],[],[]
+        ind_x = np.argwhere(el==x)[:,0]
+        yun = np.unique(y)
+        for el2 in yun:
+            ind_y = np.argwhere(el2==y)[:,0]
+            inds = np.intersect1d(ind_x,ind_y)
+            xtmp+=[el]
+            ytmp+=[el2]
+            ztmp+=[z[inds][0]]
+        xf+=[xtmp]
+        yf+=[ytmp]
+        zf+=[ztmp]
+        
+    return np.array(xf),np.array(yf),np.array(zf)
+##############3
+def plotEMWOheatmap_diff(axa,axb,fig,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,switchX=None,fs=20,cbarLab=None,cbarEnds=None):
+    axa.text(-0.1, 1.05, subF,transform=axa.transAxes,verticalalignment='top', horizontalalignment='right',color='black', fontsize=fs+5)
+    df = pd.read_csv(titleStart+"_EMWO_diff.txt")
+    if not switchX:
+        xk = 'X'
+        yk='Y'
+    else:
+        xk='Y'
+        yk='X'
+
+    if not cbarEnds:
+        midV=0
+        minV=-100
+        maxV=100
+    else:
+        midV=cbarEnds[0]
+        minV=cbarEnds[1]
+        maxV=cbarEnds[2]
+
+    if np.min(df['X'])<1 and np.max(df['X'])<2:
+	for i in range(len(df)):
+		df['X'].values[i] = 1.-df['X'].values[i]
+    if np.min(df['Y'])<1 and np.max(df['Y'])<2:
+	for i in range(len(df)):
+		df['Y'].values[i] = 1.-df['Y'].values[i]
+
+    X,Y,Z = getMesh(df[xk].values,df[yk].values,df['Diff'].values)
+    print(np.min(Z),np.median(Z),np.max(Z))
+    cs=axa.contourf(X,Y,Z,cmap='bwr',norm=MidpointNormalize(midpoint=midV,vmin=minV,vmax=maxV))
+    if not cbarLab:
+         fig.colorbar(cs, cax=axb, orientation='vertical',label='E/M-W/O (%)',ticks=[0,20,40,60,80,100])
+    else:
+         fig.colorbar(cs, cax=axb, orientation='vertical',label=cbarLab,ticks=[0,20,40,60,80,100])
     if xlabel:
         if switchX:
             axa.set_xlabel(ylabel)
@@ -324,15 +424,12 @@ def plotPhases(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,l
             axa.set_ylim(xlim)
         else:
             axa.set_ylim(ylim)
-    if legend=='return':
-        return retC,retL
+
 
 ##############3
 ##############3
 ##############3
-def plotEMWOheatmap(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,switchX=None,fs=None):
-    if not fs:
-	fs=20
+def plotEMWOheatmap(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,switchX=None,fs=20,cbarEnds=None):
     axa.text(-0.1, 1.05, subF,transform=axa.transAxes,verticalalignment='top', horizontalalignment='right',color='black', fontsize=fs+5)
     df = pd.read_csv(titleStart+"_EMWO.txt")
     if not switchX:
@@ -343,7 +440,15 @@ def plotEMWOheatmap(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=N
         yk='X'
 
     compHybrid=getCompHybridVal(compI=False)
-    plt.scatter(df[xk],df[yk],c=df['EMWO'],cmap='bwr',norm=MidpointNormalize(midpoint=compHybrid,vmin=0,vmax=100))
+    if not cbarEnds:
+        midV=compHybrid
+        minV=00
+        maxV=100
+    else:
+        midV=cbarEnds[0]
+        minV=cbarEnds[1]
+        maxV=cbarEnds[2]
+    plt.scatter(df[xk],df[yk],c=df['EMWO'],cmap='bwr',norm=MidpointNormalize(midpoint=midV,vmin=minV,vmax=maxV))
     plt.colorbar(label='E/M-W/O (%)')
     if xlabel:
         if switchX:
@@ -369,15 +474,24 @@ def plotEMWOheatmap(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=N
 ##############3
 ##############3
 ##############3
-def plotPhaseICS(ax,subF,titleStart,typeN,xlabel=None,xlim=None,ylabel=None,noICS=False,fs=None):
+def plotPhaseICS(ax,subF,titleStart,typeN,xlabel=None,xlim=None,ylabel=None,noICS=False,fs=None,legend=True,reduced=None):
     ##########
     if not fs:
         fs=20
         
     ax.text(-0.15, 1.15, subF,transform=ax.transAxes,verticalalignment='top', horizontalalignment='right',color='black', fontsize=fs+5)
 
-    labs = colorMap(titleStart+"_legend.txt",reduced=True)
+    if reduced:
+        labs = colorMap(titleStart+"_legend.txt",reduced=True)
+    else:
+        labs = colorMap(titleStart+"_legend.txt",reduced=False)
     df = pd.read_csv(titleStart+".txt")
+
+    if np.min(df['X1'])<1 and np.max(df['X1'])<2:
+        print titleStart,xlabel
+        for i in range(len(df)):
+             df['X1'].values[i] = 1.-df['X1'].values[i]
+             df['X2'].values[i] = 1.-df['X2'].values[i]
     for i in range(len(df)):
             ax.fill_between([df['X1'].values[i],df['X2'].values[i]],-10,110,facecolor=getColor(labs[df['color'].values[i]]),linewidth=0.0)
 
@@ -389,15 +503,21 @@ def plotPhaseICS(ax,subF,titleStart,typeN,xlabel=None,xlim=None,ylabel=None,noIC
     ax.set_ylim(-1,101)
     if not noICS:
         mark = {'O':'dotted','W':'--','WO':'-.','M':'dotted','E':'--','EM':'-.'}
+        col = {'O':'k','W':'g','WO':'b','M':'k','E':'g','EM':'b'}
         df2 = pd.read_csv(titleStart+"_ics.txt")
         for key in keyList:
-            inds = np.argsort(df2['x'].values)
-            ax.plot(df2['x'].values[inds],df2[key].values[inds],linestyle=mark[key],linewidth=5,color='k',label=labelD[key])
-        ax.legend(loc='center left',frameon=False,bbox_to_anchor=(1.05,0.5),fontsize=fs)
+            xvals=df2['x'].values
+            yvals=df2[key].values
+            if np.min(xvals)<1 and np.max(xvals)<2:
+		xvals = 1.-xvals
+            inds = np.argsort(xvals)
+            ax.plot(xvals[inds],yvals[inds],linestyle='-',color=col[key],linewidth=5,label=labelD[key])
+	if legend:
+        	ax.legend(loc='center left',frameon=False,bbox_to_anchor=(1.05,0.5),fontsize=fs)
         ax.set_ylabel("Initial\nConditions (%)")
         if xlim:
             if xlim==-1:
-                ax.set_xlim(0,np.max(df2['x'].values))
+                ax.set_xlim(0,np.max(xvals))
             else:
                 ax.set_xlim(xlim)
     else:
@@ -407,7 +527,7 @@ def plotPhaseICS(ax,subF,titleStart,typeN,xlabel=None,xlim=None,ylabel=None,noIC
         else:
                 ax.set_xlim(xlim)
     if xlabel:
-        ax.set_xlabel(xlabel)
+        ax.set_xlabel(xlabel,fontsize=fs+10)
     if ylabel:
         ax.set_ylabel(ylabel)
     else:
@@ -423,11 +543,14 @@ def getCompV(el):
 ##############3
 ##############3
 ##############3
-def plotICS(ax,df,key,key1,key2,fs=None):
-    if not fs:
-	fs=20
+def plotICS(ax,df,key,key1,key2,fs=20):
     xvals=df['icsNumber'].values
+    if np.min(xvals)<1 and np.max(xvals)<2:
+        xvals = 1.-xvals
     inds = np.argsort(xvals)
+    key='E'
+    key1='M'
+    key2='EM'
     yv=df[key+"Avg"][inds]+df[key1+"Avg"][inds]+df[key2+"Avg"][inds]
     yv1=df[key2+"Avg"][inds]+df[key1+"Avg"][inds]
     yv2=df[key2+"Avg"][inds]
@@ -451,6 +574,8 @@ def plotICS_coupled(gs1,df,colLength):
     row,col=0,0
     for key in ['E/O','E/W','E/WO','EM/O','EM/W','EM/WO','M/O','M/W','M/WO']:
         ax = plt.subplot(gs1[row,col])
+        if np.min(df['icsNumber'].values)<1 and np.max(df['icsNumber'].values)<2:
+             df['icsNumber'].values = 1.-df['icsNumber'].values
         inds = np.argsort(df['icsNumber'].values)
         ax.bar(np.arange(len(df['icsNumber'])),df[key+"Avg"].values[inds],yerr=df[key+"Std"].values[inds])
         ax.set_title(key)
@@ -466,9 +591,7 @@ def plotICS_coupled(gs1,df,colLength):
 ##############3
 ##############3
 ##############3
-def plotBreakdown(ax,df,masterKey,fs=None):
-    if not fs:
-	fs=20
+def plotBreakdown(ax,df,masterKey,fs=20):
     names = {'E':'Epithelial','EM':'E/M','M':'Mesenchymal','W':"Warburg",'WO':'W/O','O':'OXPHOS'}
     if masterKey in ['W','WO','O']:
         keyList=['E/'+masterKey,'EM/'+masterKey,'M/'+masterKey]
@@ -481,6 +604,8 @@ def plotBreakdown(ax,df,masterKey,fs=None):
     for key in keyList:#['E/O','EM/O','M/O','O']:#['E/O','E/WO','E/W','M/O','M/WO','M/W','EM/O','EM/WO','EM/W']:
             x=df['x'].values
             y=df[key].values
+            if np.min(x)<1 and np.max(x)<2:
+                  x = 1.-x
             inds = np.argsort(x)
             x=x[inds]
             y=y[inds]
@@ -508,9 +633,7 @@ class MidpointNormalize(matplotlib.colors.Normalize):
 ##############3
 ##############3
 ##############3
-def plotNumberBreakdown(ax,df,maxRegType,pType,fs=None,titleSub=None):
-    if not fs:
-	fs=20
+def plotNumberBreakdown(ax,df,maxRegType,pType,titleSub=None,fs=20):
     emwo,emo,emw = 'EM/WO','EM/O','EM/W'
     ewo,eo,ew = 'E/WO','E/O','E/W'
     mwo,mo,mw = 'M/WO','M/O','M/W'
@@ -548,8 +671,8 @@ def plotNumberBreakdown(ax,df,maxRegType,pType,fs=None,titleSub=None):
         
     ax.legend(bbox_to_anchor=(1.1, 0.5), loc='center left',frameon=False,fontsize=fs)
     ax.set_ylabel("Steady states (%)")
-    if not titleSub:
-        ax.set_title('$\lambda=$'+str(maxReg))
+    if titleSub:
+       ax.set_title(titleSub)
     else:
-        ax.set_title('$\lambda_{'+titleSub+'}=$'+str(maxReg))
+       ax.set_title('$\lambda=$'+str(maxReg))
 

@@ -433,7 +433,7 @@ int  main(void){
 	    	    	    //else{
 	    	            //	l2max = 1;}
 	            for (int l2=0; l2<l2max;l2++){
-	            for (int a=3; a<6;a++){
+	            for (int a=6; a<8;a++){
 			int iv=a;
 			//switch(a){
 			//	case 0:

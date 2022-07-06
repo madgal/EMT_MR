@@ -1488,8 +1488,8 @@ getDataSets_EMWO('Hu','data_7cPSF',8,namey='u3m',constants={'input':10000.},star
 getDataSets('u3m','data_4cComp',namey='iHu',constants={'input':10000.})
 getDataSets_HHLoc('u3m','data_4cComp',8,namey='iHu',constants={'input':10000.})
 
-getDataSets('u3n','data_u3nHuInput',namey='iHu',constants={'input':10000.})
-getDataSets_HHLoc('u3n','data_u3nHuInput',8,namey='iHu',constants={'input':10000.})
+getDataSets('u3n','data_u3nHuInput',namey='iHu',constants={'input':60000.})
+getDataSets_HHLoc('u3n','data_u3nHuInput',8,namey='iHu',constants={'input':60000.})
 exit()
 
 ## comparison data
