@@ -147,6 +147,29 @@ def getColor(label):
 	    ['E/O','EM/W','EM/WO','M/O','M/W','M/WO'],
 	    ['E/O','E/W','E/WO','EM/W','M/O','M/W','M/WO'],
 
+	    ['E/O','E/W','E/WO'],
+
+
+            ['E/O','E/WO','EM/O','M/O'],
+	    ['EM/WO','M/O'],
+	    ['EM/O','EM/WO','M/O'],
+	    ['E/WO','EM/O','EM/WO','M/O'],
+	    ['E/O','E/WO','EM/O','EM/WO','M/O'],
+            ['E/O','E/WO','EM/WO','M/W','M/WO'],
+            ['E/O','E/W','E/WO','EM/W','M/W','M/WO'],
+            ['E/O','E/W','E/WO','M/W','M/WO'],
+	    ['E/O','E/WO','EM/W','EM/WO','M/O','M/W','M/WO'],
+	    ['E/O','E/WO','EM/WO','M/O','M/W','M/WO'],
+
+            ['E/O','E/WO','EM/W','EM/WO'],
+	    ['E/O','E/WO','EM/W'],
+	    ['E/O','E/WO','EM/WO'],
+
+            ['E/O','EM/W','EM/WO','M/W','M/WO'],
+            ['E/O','EM/W','EM/WO','M/W'],
+
+		
+
              ]
     
     __clist=['coral','orangered','peru','bisque','darkorange','gold',
@@ -160,28 +183,30 @@ def getColor(label):
 		'lightcoral','orange','limegreen','mediumturquoise',
 		'mistyrose','olivedrab','lightsteelblue','burlywood','darkmagenta',
 		'maroon','salmon','sandybrown','yellowgreen','teal','lightpink',
-		'skyblue','palegreen','indigo','hotpink','violet','peachpuff',
+		'skyblue','palegreen','indigo','hotpink','violet','peachpuff','papayawhip',
+		'seagreen','darksalmon','indianred','lightcyan','lavenderblush',
+		'brown','darkolivegreen','azure','purple','mediumvioletred',
+		'green','powderblue','mintcream','orchid','mediumslateblue',
 		]
 
 
     '''
 		black,dimgray,gray,darkgray,lightgray,gainsboro,whitesmoke,white,snow
-		indianred,brown,darkred,
-		tomato,darksalmon,lightsalmon,sienna,seashell,
+		darkred,
+		tomato,lightsalmon,sienna,seashell,
 		saddlebrown,linenantiquewhite
-		navajowhite,blanchedalmond,papayawhip,moccasin,wheat,oldlace,floralwhite,
+		navajowhite,blanchedalmond,moccasin,wheat,oldlace,floralwhite,
 		darkgoldenrod,cornsilk,lemonchiffon,khaki,palegoldenrod,
 		ivory,beige,lightyellow,lightgoldenrodyellow,yellow,
-		darkolivegreen,seagreen
-		green,lime,seagreen,mediumseagreen,springgreen,mintcream,
+		lime,seagreen,mediumseagreen,springgreen,
 		mediumspringgreen,mediumaquamarine,
-		azure,lightcyan,paleturqouise,darkslategray,
-		cadetblue,powderblue
+		paleturqouise,darkslategray,
+		cadetblue,
 		aliceblue,lightslategray,cornflowerblue,
 		ghostwhite,midnightblue,navy,darkblue,mediumblue,
-		darkslateblue,mediumslateblue
-		darkorchid,purple,
-		fuchsia,orchid,mediumvioletred,lavenderblush 
+		darkslateblue,
+		darkorchid,
+		fuchsia,
     '''
 
     for i in range(len(keys)):
@@ -543,14 +568,11 @@ def getCompV(el):
 ##############3
 ##############3
 ##############3
-def plotICS(ax,df,key,key1,key2,fs=20):
+def plotICS(ax,df,key,key1,key2,fs=20,legLoc=None):
     xvals=df['icsNumber'].values
     if np.min(xvals)<1 and np.max(xvals)<2:
         xvals = 1.-xvals
     inds = np.argsort(xvals)
-    key='E'
-    key1='M'
-    key2='EM'
     yv=df[key+"Avg"][inds]+df[key1+"Avg"][inds]+df[key2+"Avg"][inds]
     yv1=df[key2+"Avg"][inds]+df[key1+"Avg"][inds]
     yv2=df[key2+"Avg"][inds]
@@ -560,7 +582,10 @@ def plotICS(ax,df,key,key1,key2,fs=20):
     ax.bar(np.arange(0,len(df)),yv,label=labelD[key])#,yerr=ye,label=key)
     ax.bar(np.arange(0,len(df)),yv1,label=labelD[key1])#,yerr=ye1,label=key1)
     ax.bar(np.arange(0,len(df)),yv2,label=labelD[key2])#,yerr=ye2,label=key2)
-    ax.legend(bbox_to_anchor=(1.1, 0.5), loc='center left',frameon=False,fontsize=fs)
+    if not legLoc:
+        ax.legend(bbox_to_anchor=(1.1, 0.5), loc='center left',frameon=False,fontsize=fs)
+    else:
+        ax.legend(bbox_to_anchor=legLoc, loc='center left',frameon=False,fontsize=fs)
     ax.set_xlabel("Initial conditions")
     ax.set_ylabel("Steady states (%)")
     xvals=xvals[inds]

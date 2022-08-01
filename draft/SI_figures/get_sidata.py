@@ -1302,7 +1302,7 @@ def getData_Fig4_uh_u3n_u3m():
     print(xun_ok)
     ##### Get rid of silencing shifts you previously generated
     tmp = np.round(df['UH'].values,3)
-    tmpy = df['U3M'].values
+    tmpy = df['U3N'].values
     for i in [9,8,7,6,5,4,3,2,1]:
          inds = np.argwhere(tmp>i)[:,0]
          if len(inds)>0:
@@ -1327,7 +1327,9 @@ def getData_Fig4_uh_u3n_u3m():
                             yf+=[tmpy[i]]
                             zf+=[z[i]]
     xf=np.array(xf)
+    xf = 1.-xf
     yf=np.array(yf)
+    yf = 1.-yf
     zf=np.array(zf)
 
     ## for each value of the x and y figure out what the states are possible
@@ -1479,21 +1481,203 @@ def getData_Fig4_uh_u3n_u3m():
 ##########################
 ##########################
 ##########################
+
+
+
+#############################
+#### Fig S1
+#############################
+## all in jupyter notebook
+
+#############################
+#### Fig S2
+#############################
+getData_1c()
+
+#############################
+#### Fig S3
+#############################
+getData_1c()
+
+#############################
+#### Fig S4
+#############################
+CompData("data_s1","comparison_coupled")
+
+#############################
+#### Fig S5
+#############################
+getDataSets('u3m','data_s2a')
+getDataSets_ics('u3m','data_s2a','u3m',title='crosstalk_u3m.txt')
+
+#############################
+#### Fig S6
+#############################
+### use data that was in the figure (used to be figure) need to tranfer and fix
+
+#############################
+#### Fig S7
+#############################
+getUH_correct("crosstalk_uh_u3m.txt","data_uh_u3m",'U3M')##S7
+getUH_correct("crosstalk_uh_u3n.txt","data_uh_u3n",'U3N')## S7
+
+#############################
+#### Fig S8
+#############################
 getData_Fig4_uh_u3n_u3m()
 
+#############################
+#### Fig S9
+#############################
+getDataSets('HS','data_s2g')
+getDataSets_ics('HS','data_s2g','HS',title='crosstalk_HS.txt')
+
+#############################
+#### Fig S10
+#############################
+getDataSets('Hu','data_s2f',Ftitle='crosstalk_iHu.txt')
+getDataSets_ics('Hu','data_s2f','Hu',title='crosstalk_iHu.txt')
+
+#############################
+#### Fig S11
+#############################
+getDataSets('input','data_s2h')
+getDataSets_ics('input','data_s2h','input',title='crosstalk_input.txt')
+
+#############################
+#### Fig S12
+#############################
+getDataSets('Au','data_s2e')
+getDataSets_ics('Au','data_s2e','Au',title='crosstalk_Au.txt')
+
+#############################
+#### Fig S13
+#############################
+getDataSets('AS','data_s2c')
+getDataSets_ics('AS','data_s2c','AS',title='crosstalk_AS.txt')
+
+#############################
+#### Fig S14
+#############################
+getDataSets('AZ','data_s2d')
+getDataSets_ics('AZ','data_s2d','AZ',title='crosstalk_AZ.txt')
+
+#############################
+#### Fig S15
+#############################
+getDataSets('AS','data_AS_HS',namey='HS')
+getDataSets_HHLoc('AS','data_AS_HS',8,namey='HS')
+getDataSets_EMWO('AS','data_AS_HS',8,namey='HS')
+
+getDataSets('Au','data_Au_HS',namey='HS')
+getDataSets_HHLoc('Au','data_Au_HS',8,namey='HS')
+getDataSets_EMWO('Au','data_Au_HS',8,namey='HS')
+
+getDataSets('AS','data_AS_Hu',namey='Hu')
+getDataSets_HHLoc('AS','data_AS_Hu',8,namey='Hu')
+getDataSets_EMWO('AS','data_AS_Hu',8,namey='Hu')
+
+getDataSets('Au','data_Au_Hu',namey='Hu')
+getDataSets_HHLoc('Au','data_Au_Hu',8,namey='Hu')
+getDataSets_EMWO('Au','data_Au_Hu',8,namey='Hu')
+
+#############################
+#### Fig S16
+#############################
+getDataSets('u3m','data_4a_si',namey='AS',constants={'input':60000.},Ftitle='crosstalk_AS_u3m_input.txt')
+getDataSets_HHLoc('u3m','data_4a_si',8,namey='AS',constants={'input':60000.},Ftitle='crosstalk_AS_u3m_input.txt')
+getDataSets('Hu','data_4b_si',namey='u3m',constants={'AS':0.2},Ftitle='crosstalk_AS_Hu_u3m.txt')
+getDataSets_HHLoc('Hu','data_4b_si',8,namey='u3m',constants={'AS':0.2},Ftitle='crosstalk_AS_Hu_u3m.txt')
+getDataSets('u3m','data_s4',namey='iHu',constants={'input':20000.})
+getDataSets_HHLoc('u3m','data_s4',8,namey='iHu',constants={'input':20000.})
+getDataSets_EMWO('u3m','data_s4',8,namey='iHu',constants={'input':20000.})
+getDataSets('u3m','data_s4d',namey='AZ',constants={'input':20000.,'AS':0.95,'Au':1.1,'HS':1.1,'Hu':0.1,'UHV':310,'U3N':0.2},Ftitle='crosstalk_all.txt')
+getDataSets_HHLoc('u3m','data_s4d',8,namey='AZ',constants={'input':20000.,'AS':0.95,'Au':1.1,'HS':1.1,'Hu':0.1,'UHV':310,'U3N':0.2},Ftitle='crosstalk_all.txt')
+#############################
+#### Fig S17
+#############################
+getData_NOHHICS()
+
+#############################
+#### Fig S18
+#############################
+getUH_correct("noWO_crosstalk_uh.txt","data_nowo_uh",None)
+
+#############################
+#### Fig S19
+#############################
+getDataSets('AZ','data_noem_AZ',start='noEM_')
+getDataSets_ics('AZ','data_noem_AZ','AZ',start='noEM_',title="noEM_crosstalk_AZ.txt")
+getDataSets('Au','data_noem_Au',start='noEM_')
+getDataSets_ics('Au','data_noem_Au','Au',start='noEM_',title="noEM_crosstalk_Au.txt")
+getDataSets('AS','data_noem_AS',start='noEM_')
+getDataSets_ics('AS','data_noem_AS','AS',start='noEM_',title="noEM_crosstalk_AS.txt")
+getDataSets('HS','data_noem_HS',start='noEM_')
+getDataSets_ics('HS','data_noem_HS','HS',start='noEM_',title="noEM_crosstalk_HS.txt")
+
+#############################
+#### Fig S20
+#############################
+getDataSets('AS','data_noem_AS_HS',namey='HS',start='noEM_')
+getDataSets_HHLoc('AS','data_noem_AS_HS',8,namey='HS',start='noEM_')
+getDataSets_EMWO('AS','data_noem_AS_HS',8,namey='HS',start='noEM_')
+
+getDataSets('Au','data_noem_Au_HS',namey='HS',start='noEM_')
+getDataSets_HHLoc('Au','data_noem_Au_HS',8,namey='HS',start='noEM_')
+getDataSets_EMWO('Au','data_noem_Au_HS',8,namey='HS',start='noEM_')
+
+getDataSets('AS','data_noem_AS_Hu',namey='Hu',start='noEM_')
+getDataSets_HHLoc('AS','data_noem_AS_Hu',8,namey='Hu',start='noEM_')
+getDataSets_EMWO('AS','data_noem_AS_Hu',8,namey='Hu',start='noEM_')
+
+getDataSets('Au','data_noem_Au_Hu',namey='Hu',start='noEM_')
+getDataSets_HHLoc('Au','data_noem_Au_Hu',8,namey='Hu',start='noEM_')
+getDataSets_EMWO('Au','data_noem_Au_Hu',8,namey='Hu',start='noEM_')
+
+#############################
+#### Fig S21
+#############################
+getDataSets('Hu','data_s6cnoHH',namey='u3m',constants={'input':10000.},start='noHH_')
+getDataSets_HHLoc('Hu','data_s6cnoHH',8,namey='u3m',constants={'input':10000.},start='noHH_')
+
+#############################
+#### Fig S22
+#############################
+
+getDataSets('AS','data_PSF_AS',start='PSF_')
+getDataSets_ics('AS','data_PSF_AS','AS',start='PSF_',title="PSF_crosstalk_AS.txt")
+getDataSets('Au','data_PSF_Au',start='PSF_')
+getDataSets_ics('Au','data_PSF_Au','Au',start='PSF_',title="PSF_crosstalk_Au.txt")
+
+getDataSets('HS','data_PSF_HS',start='PSF_')
+getDataSets_ics('HS','data_PSF_HS','HS',start='PSF_',title="PSF_crosstalk_HS.txt")
+getDataSets('Hu','data_PSF_Hu',start='PSF_')
+getDataSets_ics('Hu','data_PSF_Hu','Hu',start='PSF_',title="PSF_crosstalk_Hu.txt")
+
+getDataSets('u3m','data_PSF_u3m',start='PSF_')
+getDataSets_ics('u3m','data_PSF_u3m','u3m',start='PSF_',title="PSF_crosstalk_u3m.txt")
+getDataSets('u3n','data_PSF_u3n',start='PSF_')
+getDataSets_ics('u3n','data_PSF_u3n','u3n',start='PSF_',title="PSF_crosstalk_u3n.txt")
+
+#############################
+#### Fig S23
+#############################
 getDataSets('Hu','data_7cPSF',namey='u3m',constants={'input':10000.},start='PSF_')
 getDataSets_HHLoc('Hu','data_7cPSF',8,namey='u3m',constants={'input':10000.},start='PSF_')
 getDataSets_EMWO('Hu','data_7cPSF',8,namey='u3m',constants={'input':10000.},start='PSF_')
-
 getDataSets('u3m','data_4cComp',namey='iHu',constants={'input':10000.})
 getDataSets_HHLoc('u3m','data_4cComp',8,namey='iHu',constants={'input':10000.})
+#############################
+#############################
+exit()
+
+
 
 getDataSets('u3n','data_u3nHuInput',namey='iHu',constants={'input':60000.})
 getDataSets_HHLoc('u3n','data_u3nHuInput',8,namey='iHu',constants={'input':60000.})
 exit()
 
 ## comparison data
-CompData("data_s1","comparison_coupled")
 
 ## full for 4A
 
@@ -1507,9 +1691,6 @@ getDataSets_HHLoc('AS','data_s3',4,namey='Au',constants={'input':50000.,'AZ':0.4
 getDataSets_EMWO('AS','data_s3',4,namey='Au',constants={'input':50000.,'AZ':0.4,'HS':1.1,'Hu':0.1},Ftitle='crosstalk_AS_AZ_Au_HS_Hu_input.txt')
 
 ## Full for 4C
-getDataSets('u3m','data_s4',namey='iHu',constants={'input':20000.})
-getDataSets_HHLoc('u3m','data_s4',8,namey='iHu',constants={'input':20000.})
-getDataSets_EMWO('u3m','data_s4',8,namey='iHu',constants={'input':20000.})
 
 
 ### Full for 5C
@@ -1541,57 +1722,16 @@ getDataSets('AZ','data_s8',namey='Hu',start='noEM_')
 getDataSets_HHLoc('AZ','data_s8',8,namey='Hu',start='noEM_')
 getDataSets_EMWO('AZ','data_s8',8,namey='Hu',start='noEM_')
 
-getDataSets('AZ','data_noem_AZ',start='noEM_')
-getDataSets_ics('AZ','data_noem_AZ','AZ',start='noEM_',title="noEM_crosstalk_AZ.txt")
-getDataSets('Au','data_noem_Au',start='noEM_')
-getDataSets_ics('Au','data_noem_Au','Au',start='noEM_',title="noEM_crosstalk_Au.txt")
-getDataSets('AS','data_noem_AS',start='noEM_')
-getDataSets_ics('AS','data_noem_AS','AS',start='noEM_',title="noEM_crosstalk_AS.txt")
-getDataSets('HS','data_noem_HS',start='noEM_')
-getDataSets_ics('HS','data_noem_HS','HS',start='noEM_',title="noEM_crosstalk_HS.txt")
-getDataSets('Hu','data_noem_Hu',start='noEM_')
-getDataSets_ics('Hu','data_noem_Hu','Hu',start='noEM_',title="noEM_crosstalk_Hu.txt")
-
 ####
-getDataSets('u3m','data_s2a')
-getDataSets_ics('u3m','data_s2a','u3m',title='crosstalk_u3m.txt')
 #getDataSets_uhSingles('data_s2b_uh')
 
-getDataSets('AS','data_s2c')
-getDataSets_ics('AS','data_s2c','AS',title='crosstalk_AS.txt')
-getDataSets('AZ','data_s2d')
-getDataSets_ics('AZ','data_s2d','AZ',title='crosstalk_AZ.txt')
-getDataSets('Au','data_s2e')
-getDataSets_ics('Au','data_s2e','Au',title='crosstalk_Au.txt')
 
-getDataSets('Hu','data_s2f',Ftitle='crosstalk_iHu.txt')
-getDataSets_ics('Hu','data_s2f','Hu',title='crosstalk_iHu.txt')
-getDataSets('HS','data_s2g')
-getDataSets_ics('HS','data_s2g','HS',title='crosstalk_HS.txt')
 
-getDataSets('input','data_s2h')
-getDataSets_ics('input','data_s2h','input',title='crosstalk_input.txt')
 
 getData_1c()
 getData_NOHHICS()
 getData_PSF_ICS()
-##
-getDataSets('AS','data_PSF_AS',start='PSF_')
-getDataSets_ics('AS','data_PSF_AS','AS',start='PSF_',title="PSF_crosstalk_AS.txt")
-getDataSets('Au','data_PSF_Au',start='PSF_')
-getDataSets_ics('Au','data_PSF_Au','Au',start='PSF_',title="PSF_crosstalk_Au.txt")
-
-getDataSets('HS','data_PSF_HS',start='PSF_')
-getDataSets_ics('HS','data_PSF_HS','HS',start='PSF_',title="PSF_crosstalk_HS.txt")
-getDataSets('Hu','data_PSF_Hu',start='PSF_')
-getDataSets_ics('Hu','data_PSF_Hu','Hu',start='PSF_',title="PSF_crosstalk_Hu.txt")
-
-getDataSets('u3m','data_PSF_u3m',start='PSF_')
-getDataSets_ics('u3m','data_PSF_u3m','u3m',start='PSF_',title="PSF_crosstalk_u3m.txt")
-getDataSets('u3n','data_PSF_u3n',start='PSF_')
-getDataSets_ics('u3n','data_PSF_u3n','u3n',start='PSF_',title="PSF_crosstalk_u3n.txt")
-
-getDataSets('u3n','data_PSF_u3n_u3m',namey='u3m',start='PSF_',Ftitle='PSF_crosstalk_u3m_u3n.txt')
+##getDataSets('u3n','data_PSF_u3n_u3m',namey='u3m',start='PSF_',Ftitle='PSF_crosstalk_u3m_u3n.txt')
 getDataSets_HHLoc('u3n','data_PSF_u3n_u3m',8,namey='u3m',start='PSF_',Ftitle='PSF_crosstalk_u3m_u3n.txt')
 getDataSets_EMWO('u3n','data_PSF_u3n_u3m',8,namey='u3m',start='PSF_',Ftitle='PSF_crosstalk_u3m_u3n.txt')
 
@@ -1628,80 +1768,23 @@ getDataSets_HHLoc('u3n','data_3_MR3',6,namey='u3m',constants={'UHV':310},Ftitle=
 getDataSets('u3n','data_3_MR4',namey='u3m',constants={'UHV':311},Ftitle='crosstalk_uh_u3n_u3m.txt')
 getDataSets_HHLoc('u3n','data_3_MR4',6,namey='u3m',constants={'UHV':311},Ftitle='crosstalk_uh_u3n_u3m.txt')
 
-## uh for PSF
 #getDataSets_uhSingles('data_s_uh')
 
-
-getDataSets('uh','data_uh_u3m',namey='u3m')
-getDataSets_HHLoc('uh','data_uh_u3m',8,namey='u3m')
-getDataSets_EMWO('uh','data_uh_u3m',8,namey='u3m')
-
-getDataSets('uh','data_uh_u3n',namey='u3n')
-getDataSets_HHLoc('uh','data_uh_u3n',8,namey='u3n')
-getDataSets_EMWO('uh','data_uh_u3n',8,namey='u3n')
 
 getDataSets('u3n','data_u3n_u3m',namey='u3m')
 getDataSets_HHLoc('u3n','data_u3n_u3m',8,namey='u3m')
 getDataSets_EMWO('u3n','data_u3n_u3m',8,namey='u3m')
 
-getDataSets('AS','data_AS_HS',namey='HS')
-getDataSets_HHLoc('AS','data_AS_HS',8,namey='HS')
-getDataSets_EMWO('AS','data_AS_HS',8,namey='HS')
-
-getDataSets('Au','data_Au_HS',namey='HS')
-getDataSets_HHLoc('Au','data_Au_HS',8,namey='HS')
-getDataSets_EMWO('Au','data_Au_HS',8,namey='HS')
-
-getDataSets('AS','data_AS_Hu',namey='Hu')
-getDataSets_HHLoc('AS','data_AS_Hu',8,namey='Hu')
-getDataSets_EMWO('AS','data_AS_Hu',8,namey='Hu')
-
-getDataSets('Au','data_Au_Hu',namey='Hu')
-getDataSets_HHLoc('Au','data_Au_Hu',8,namey='Hu')
-getDataSets_EMWO('Au','data_Au_Hu',8,namey='Hu')
-
-getDataSets('u3m','data_s4d',namey='AZ',constants={'input':20000.,'AS':0.95,'Au':1.1,'HS':1.1,'Hu':0.1,'UHV':310,'U3N':0.2},Ftitle='crosstalk_all.txt')
-getDataSets_HHLoc('u3m','data_s4d',8,namey='AZ',constants={'input':20000.,'AS':0.95,'Au':1.1,'HS':1.1,'Hu':0.1,'UHV':310,'U3N':0.2},Ftitle='crosstalk_all.txt')
 
 
-
-getDataSets('Hu','data_s6cnoHH',namey='u3m',constants={'input':10000.},start='noHH_')
-getDataSets_HHLoc('Hu','data_s6cnoHH',8,namey='u3m',constants={'input':10000.},start='noHH_')
 
 
 
 
 
 ############
-getUH_correct("crosstalk_uh_u3m.txt","data_uh_u3m",'U3M')
-getUH_correct("crosstalk_uh_u3n.txt","data_uh_u3n",'U3N')
-getUH_correct("noWO_crosstalk_uh.txt","data_nowo_uh",None)
 
 
 
-
-getDataSets('AS','data_noem_AS_HS',namey='HS',start='noEM_')
-getDataSets_HHLoc('AS','data_noem_AS_HS',8,namey='HS',start='noEM_')
-getDataSets_EMWO('AS','data_noem_AS_HS',8,namey='HS',start='noEM_')
-
-getDataSets('Au','data_noem_Au_HS',namey='HS',start='noEM_')
-getDataSets_HHLoc('Au','data_noem_Au_HS',8,namey='HS',start='noEM_')
-getDataSets_EMWO('Au','data_noem_Au_HS',8,namey='HS',start='noEM_')
-
-getDataSets('AS','data_noem_AS_Hu',namey='Hu',start='noEM_')
-getDataSets_HHLoc('AS','data_noem_AS_Hu',8,namey='Hu',start='noEM_')
-getDataSets_EMWO('AS','data_noem_AS_Hu',8,namey='Hu',start='noEM_')
-
-getDataSets('Au','data_noem_Au_Hu',namey='Hu',start='noEM_')
-getDataSets_HHLoc('Au','data_noem_Au_Hu',8,namey='Hu',start='noEM_')
-getDataSets_EMWO('Au','data_noem_Au_Hu',8,namey='Hu',start='noEM_')
-
-
-
-getDataSets('u3m','data_4a_si',namey='AS',constants={'input':60000.},Ftitle='crosstalk_AS_u3m_input.txt')
-getDataSets_HHLoc('u3m','data_4a_si',8,namey='AS',constants={'input':60000.},Ftitle='crosstalk_AS_u3m_input.txt')
-
-getDataSets('Hu','data_4b_si',namey='u3m',constants={'AS':0.2},Ftitle='crosstalk_AS_Hu_u3m.txt')
-getDataSets_HHLoc('Hu','data_4b_si',8,namey='u3m',constants={'AS':0.2},Ftitle='crosstalk_AS_Hu_u3m.txt')
 
 
