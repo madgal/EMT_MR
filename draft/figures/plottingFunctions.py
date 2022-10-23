@@ -187,7 +187,7 @@ def getColor(label):
     for i in range(len(keys)):
         if equals(label,keys[i]):
             if i>=len(__clist):
-                print "NEED MORE COLORS",len(keys),len(__clist)
+                print("NEED MORE COLORS",len(keys),len(__clist))
                 
             return __clist[i%len(__clist)]
             #return cmap(norm(i))
@@ -266,7 +266,7 @@ def plotPhases(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,l
             for i in range(len(dfHO)):
                 axa.fill_between([dfHO[xk+'1'].values[i],dfHO[xk+'2'].values[i]],dfHO[yk+'1'].values[i],dfHO[yk+'2'].values[i],facecolor='none',hatch='.',edgecolor='r',linewidth=0.0)
     except:
-          print "noEM"
+          print("noEM")
 
     if ylabel==None and ylim[1]>=100:
         for i in range(len(df)):
@@ -287,7 +287,7 @@ def plotPhases(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,l
                 legend_elements+=[ Patch(facecolor=getColor(labs[dfl['t3'].values[i]]),label=tmp)]
         except:
             Lflag=False
-            print "not coupled"
+            print("not coupled")
         try:
             if not Lflag:
                 Lflag=True
@@ -300,7 +300,7 @@ def plotPhases(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,l
                     legend_elements+=[ Patch(facecolor=getColor(labs[dfl['col'].values[i]]),label=tmp)]
         except:
             Lflag=False
-            print "not coupled"
+            print("not coupled")
         try:
             if not Lflag:
                 Lflag=True
@@ -312,7 +312,7 @@ def plotPhases(axa,subF,titleStart,xlabel=None,ylabel=None,xlim=None,ylim=None,l
                             tmp+=[key]
                     legend_elements+=[ Patch(facecolor=getColor(labs[dfl['col'].values[i]]),label=tmp)]
         except:
-            print "not coupled"
+            print("not coupled")
         if not legendLoc:
               axa.legend(handles=legend_elements, bbox_to_anchor=(5.1, 1.))
         else:
@@ -380,11 +380,11 @@ def plotEMWOheatmap_diff(axa,axb,fig,subF,titleStart,xlabel=None,ylabel=None,xli
         maxV=cbarEnds[2]
 
     if np.min(df['X'])<1:
-	for i in range(len(df)):
-		df['X'].values[i] = 1.-df['X'].values[i]
+        for i in range(len(df)):
+            df['X'].values[i] = 1.-df['X'].values[i]
     if np.min(df['Y'])<1:
-	for i in range(len(df)):
-		df['Y'].values[i] = 1.-df['Y'].values[i]
+        for i in range(len(df)):
+            df['Y'].values[i] = 1.-df['Y'].values[i]
 
     X,Y,Z = getMesh(df[xk].values,df[yk].values,df['Diff'].values)
     print(np.min(Z),np.median(Z),np.max(Z))
@@ -488,8 +488,8 @@ def plotPhaseICS(ax,subF,titleStart,typeN,xlabel=None,xlim=None,ylabel=None,noIC
         for key in keyList:
             inds = np.argsort(df2['x'].values)
             ax.plot(df2['x'].values[inds],df2[key].values[inds],linestyle='-',color=col[key],linewidth=5,label=labelD[key])
-	if legend:
-        	ax.legend(loc='center left',frameon=False,bbox_to_anchor=(1.05,0.5),fontsize=fs)
+    if legend:
+        ax.legend(loc='center left',frameon=False,bbox_to_anchor=(1.05,0.5),fontsize=fs)
         ax.set_ylabel("Initial\nConditions (%)")
         if xlim:
             if xlim==-1:
